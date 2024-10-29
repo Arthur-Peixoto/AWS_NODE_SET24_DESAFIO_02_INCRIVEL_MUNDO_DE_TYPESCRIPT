@@ -1,5 +1,6 @@
 import { RepositoryInterface } from '@/common/domain/repositories/repository.interface'
 import { CarModel } from '../models/cars.model'
+import { ItemModel } from '../models/items.model'
 
 export type CreateCarProps = {
   id?: string
@@ -8,7 +9,7 @@ export type CreateCarProps = {
   licensePlate: string
   year: number
   mileage?: number
-  items: string[]
+  items: ItemModel[]
   registrationDate?: Date
   status: 'ativo' | 'inativo' | 'excluído'
 }
