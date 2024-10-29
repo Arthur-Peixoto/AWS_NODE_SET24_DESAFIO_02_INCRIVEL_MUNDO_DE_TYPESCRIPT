@@ -1,5 +1,5 @@
 import express from 'express'
-import { dataSource } from '../typeorm'
+import { dataSource } from '@frameworks/typeorm'
 
 const app = express()
 const PORT = process.env.PORT || 3000

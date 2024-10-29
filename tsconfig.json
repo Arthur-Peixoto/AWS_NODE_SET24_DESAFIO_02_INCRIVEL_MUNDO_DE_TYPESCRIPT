@@ -12,7 +12,10 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@frameworks/*": ["./src/frameworks/*"],
+      "@use_cases/*": ["./src/use_cases/*"],
+      "@entities/*": ["./src/entities/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
