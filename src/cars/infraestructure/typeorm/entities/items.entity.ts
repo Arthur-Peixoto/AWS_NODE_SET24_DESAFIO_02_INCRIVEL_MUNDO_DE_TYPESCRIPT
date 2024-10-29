@@ -1,5 +1,5 @@
-import { CarModel } from '@/cars/domain/models/car.model'
-import { ItemModel } from '@/cars/domain/models/item.model'
+import { CarModel } from '@/cars/domain/models/cars.model'
+import { ItemModel } from '@/cars/domain/models/items.model'
 import {
   Column,
   Entity,
@@ -7,7 +7,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm'
-import { Car } from './car.entity'
+import { Car } from './cars.entity'
 
 @Entity('items')
 export class Item implements ItemModel {

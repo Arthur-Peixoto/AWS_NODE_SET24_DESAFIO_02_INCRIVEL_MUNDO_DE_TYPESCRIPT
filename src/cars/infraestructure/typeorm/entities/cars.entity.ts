@@ -1,5 +1,5 @@
-import { CarModel } from '@/cars/domain/models/car.model'
-import { ItemModel } from '@/cars/domain/models/item.model'
+import { CarModel } from '@/cars/domain/models/cars.model'
+import { ItemModel } from '@/cars/domain/models/items.model'
 import {
   Column,
   CreateDateColumn,
@@ -7,7 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
-import { Item } from './item.entity'
+import { Item } from './items.entity'
 
 @Entity('cars')
 export class Car implements CarModel {

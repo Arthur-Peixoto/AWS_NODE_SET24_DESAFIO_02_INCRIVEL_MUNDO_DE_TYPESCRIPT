@@ -1,4 +1,4 @@
-import { CarModel } from './car.model'
+import { CarModel } from './cars.model'
 
 export interface ItemModel {
   id: string
