@@ -1,4 +1,5 @@
 import { DataSource } from 'typeorm'
+import { CreateCars1730228276828 } from './migrations/1730228276828-CreateCars'
 
 export const dataSource = new DataSource({
   type: 'postgres',
@@ -7,6 +8,6 @@ export const dataSource = new DataSource({
   password: 'password',
   database: 'compasscar',
   port: 5432,
-  migrations: [],
+  migrations: [CreateCars1730228276828],
   entities: [],
 })
