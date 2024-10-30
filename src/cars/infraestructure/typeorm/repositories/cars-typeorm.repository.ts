@@ -53,7 +53,7 @@ export class CarsTypeormRepository implements CarsRepository {
   async update(model: CarModel): Promise<CarModel> {
     return await this.carsRepository.save(model)
   }
-  async delete(id: string): Promise<void> {
-    await this.carsRepository.delete(id)
+  async delete(model: CarModel): Promise<CarModel> {
+    return await this.carsRepository.save(model)
   }
 }
