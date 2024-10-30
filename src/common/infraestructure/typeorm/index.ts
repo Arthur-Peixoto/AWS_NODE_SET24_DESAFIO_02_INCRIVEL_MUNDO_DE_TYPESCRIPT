@@ -19,6 +19,7 @@ export const dataSource = new DataSource({
     CreateItems1730228906205,
     CreateUsers1730228906206,
     CreateTokens1730228906207,
+    CreateOrders1730237813958,
   ],
   entities: [Car, Item],
 })
