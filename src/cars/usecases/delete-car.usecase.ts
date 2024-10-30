@@ -1,5 +1,4 @@
 import { CarModel } from '../domain/models/cars.model'
-import { ItemModel } from '../domain/models/items.model'
 import { CarsRepository } from '../domain/repositories/cars.repository'
 
 export class DeleteCarUseCase {
@@ -11,9 +10,10 @@ export class DeleteCarUseCase {
     if (!carExists) {
       throw new Error("Car don't exist")
     }
+    carExists.status = 'excluído'
 
-    await this.carRepository.delete(id)
+    const deletedCar = await this.carRepository.delete(carExists)
 
-    return carExists
+    return deletedCar
   }
 }
