@@ -8,10 +8,12 @@ import { CreateTokens1730228906207 } from './migrations/1730251259678-CreateToke
 export const dataSource = new DataSource({
   type: 'postgres',
   host: 'localhost',
-  username: 'username',
-  password: 'password',
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
   database: 'compasscar',
   port: 5432,
   migrations: [CreateCars1730228276828, CreateItems1730228906205, CreateOrders1730237813958, CreateUsers1730228906206, CreateTokens1730228906207],
   entities: [],
 })
+
+
