@@ -14,9 +14,31 @@ export type CreateCarProps = {
   status: 'ativo' | 'inativo' | 'excluído'
 }
 
+export type findParams = {
+  page?: number
+  per_page?: number
+  model?: string
+  brand?: string
+  licensePlateFinalDigits?: string
+  mileage?: number
+  untilYear?: number
+  fromYear?: number
+  minPrice?: number
+  maxPrice?: number
+  items?: ItemModel[]
+}
+
+export type findResults = {
+  per_page: number
+  page: number
+  count: number
+  data: CarModel[]
+}
+
 export interface CarsRepository
   extends RepositoryInterface<CarModel, CreateCarProps> {
   findByBrand(brand: string): Promise<CarModel[]>
   findByModel(model: string): Promise<CarModel[]>
   findByYear(year: number): Promise<CarModel[]>
+  findAllAndFilter(params: findParams): Promise<findResults>
 }
