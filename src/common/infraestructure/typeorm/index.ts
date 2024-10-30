@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm'
 import { CreateCars1730228276828 } from './migrations/1730228276828-CreateCars'
 import { CreateItems1730228906205 } from './migrations/1730228906205-CreateItems'
+import { CreateOrders1730237813958 } from './migrations/1730237813958-CreateOrders'
 import { CreateUsers1730228906206 } from './migrations/1730250492317-CreateUsers'
 import { CreateTokens1730228906207 } from './migrations/1730251259678-CreateTokens'
 import { Car } from '@/cars/infraestructure/typeorm/entities/cars.entity'
