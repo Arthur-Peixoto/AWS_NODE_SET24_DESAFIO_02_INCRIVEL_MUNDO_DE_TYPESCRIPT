@@ -12,26 +12,27 @@ export class CarsTypeormRepository implements CarsRepository {
   create(props: CreateCarProps): CarModel {
     return this.carsRepository.create(props)
   }
-  insert(model: CarModel): Promise<CarModel> {
-    throw new Error('Method not implemented.')
+
+  async insert(model: CarModel): Promise<CarModel> {
+    return await this.carsRepository.save(model)
   }
-  findById(id: string): Promise<CarModel> {
-    throw new Error('Method not implemented.')
+  async findById(id: string): Promise<CarModel> {
+    return await this.carsRepository.findOne({ where: { id: id } })
   }
-  update(model: CarModel): Promise<CarModel> {
-    throw new Error('Method not implemented.')
+  async update(model: CarModel): Promise<CarModel> {
+    return await this.carsRepository.save(model)
   }
-  delete(id: string): Promise<void> {
-    throw new Error('Method not implemented.')
+  async delete(id: string): Promise<void> {
+    await this.carsRepository.delete(id)
   }
 
-  findByBrand(brand: string): Promise<CarModel[]> {
-    throw new Error('Method not implemented.')
+  async findByBrand(brand: string): Promise<CarModel[]> {
+    return await this.carsRepository.find({ where: { brand: brand } })
   }
-  findByModel(model: string): Promise<CarModel[]> {
-    throw new Error('Method not implemented.')
+  async findByModel(model: string): Promise<CarModel[]> {
+    return await this.carsRepository.find({ where: { model: model } })
   }
-  findByYear(year: number): Promise<CarModel[]> {
-    throw new Error('Method not implemented.')
+  async findByYear(year: number): Promise<CarModel[]> {
+    return await this.carsRepository.find({ where: { year: year } })
   }
 }
