@@ -38,6 +38,6 @@ export class Car implements CarModel {
   @Column({ type: 'enum', enum: ['ativo', 'inativo', 'excluído'] })
   status: 'ativo' | 'inativo' | 'excluído'
 
-  @OneToMany((type) => Item, (item) => item.car)
+  @OneToMany(() => Item, (item) => item.car, { cascade: true })
   items: ItemModel[]
 }
