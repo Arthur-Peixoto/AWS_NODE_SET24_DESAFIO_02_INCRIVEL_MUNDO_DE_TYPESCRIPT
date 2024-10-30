@@ -37,8 +37,6 @@ export type findResults = {
 
 export interface CarsRepository
   extends RepositoryInterface<CarModel, CreateCarProps> {
-  findByBrand(brand: string): Promise<CarModel[]>
-  findByModel(model: string): Promise<CarModel[]>
-  findByYear(year: number): Promise<CarModel[]>
   findAllAndFilter(params: findParams): Promise<findResults>
+  findByLicensePlate(licensePlate: string): Promise<CarModel>
 }
