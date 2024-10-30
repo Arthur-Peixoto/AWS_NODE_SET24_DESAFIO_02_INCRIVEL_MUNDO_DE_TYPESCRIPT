@@ -25,7 +25,7 @@ export class CreateItems1730228906205 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'car_id',
+            name: 'carId',
             type: 'uuid',
             isNullable: false,
           },
@@ -36,7 +36,7 @@ export class CreateItems1730228906205 implements MigrationInterface {
       'items',
       new TableForeignKey({
         name: 'itemsCar',
-        columnNames: ['car_id'],
+        columnNames: ['carId'],
         referencedTableName: 'cars',
         referencedColumnNames: ['id'],
         onDelete: 'CASCADE',
