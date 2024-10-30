@@ -10,6 +10,9 @@ import { Car } from '../entities/cars.entity'
 
 export class CarsTypeormRepository implements CarsRepository {
   constructor(private carsRepository: Repository<Car>) {}
+  async findByLicensePlate(licensePlate: string): Promise<CarModel> {
+    return await this.carsRepository.findOne({ where: { licensePlate } })
+  }
 
   async findAllAndFilter(params: findParams): Promise<findResults> {
     // const {
@@ -52,15 +55,5 @@ export class CarsTypeormRepository implements CarsRepository {
   }
   async delete(id: string): Promise<void> {
     await this.carsRepository.delete(id)
-  }
-
-  async findByBrand(brand: string): Promise<CarModel[]> {
-    return await this.carsRepository.find({ where: { brand: brand } })
-  }
-  async findByModel(model: string): Promise<CarModel[]> {
-    return await this.carsRepository.find({ where: { model: model } })
-  }
-  async findByYear(year: number): Promise<CarModel[]> {
-    return await this.carsRepository.find({ where: { year: year } })
   }
 }
