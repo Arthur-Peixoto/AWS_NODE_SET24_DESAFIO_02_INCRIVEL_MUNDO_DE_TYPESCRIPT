@@ -13,9 +13,7 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"],
-      "@frameworks/*": ["./src/frameworks/*"],
-      "@use_cases/*": ["./src/use_cases/*"],
-      "@entities/*": ["./src/entities/*"]
+      "@common/*": ["./src/common/*"]
     },
     "incremental": true,
     "skipLibCheck": true,
