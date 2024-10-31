@@ -10,8 +10,8 @@ import { Item } from '@/cars/infraestructure/typeorm/entities/items.entity'
 export const dataSource = new DataSource({
   type: 'postgres',
   host: 'localhost',
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
+  username: process.env.DB_USERNAME || 'username',
+  password: process.env.DB_PASSWORD || 'password',
   database: 'compasscar',
   port: 5432,
   migrations: [
@@ -23,5 +23,3 @@ export const dataSource = new DataSource({
   ],
   entities: [Car, Item],
 })
-
-
