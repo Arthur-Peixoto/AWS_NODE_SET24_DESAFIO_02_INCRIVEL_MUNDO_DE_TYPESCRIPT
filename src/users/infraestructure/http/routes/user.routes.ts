@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { createUserController } from '@/users/infraestructure/http/controllers/create-user.controllers'
 import { listUsersController } from '../controllers/read-users.controller'
+import { getUserByIdController } from '../controllers/read-single-user.controller'
 const userRoutes = Router()
 
 userRoutes.post('/users/', (req, res) => {
@@ -9,6 +10,10 @@ userRoutes.post('/users/', (req, res) => {
 
 userRoutes.get('/users/', (req, res) => {
   listUsersController(req, res);
+});
+
+userRoutes.get('/users/:id', (req, res) => {
+  getUserByIdController(req, res);
 });
 
 export { userRoutes }
