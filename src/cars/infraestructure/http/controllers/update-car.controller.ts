@@ -12,5 +12,5 @@ export async function updateCarController(req: Request, res: Response) {
 
   const updatedCar = await updateCarUseCase.execute(id, req.body)
 
-  return res.status(201).json(updatedCar)
+  return res.status(200).json(updatedCar)
 }

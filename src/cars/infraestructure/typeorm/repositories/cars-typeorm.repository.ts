@@ -5,13 +5,15 @@ import {
   findParams,
   findResults,
 } from '@/cars/domain/repositories/cars.repository'
-import { Repository } from 'typeorm'
+import { In, Repository } from 'typeorm'
 import { Car } from '../entities/cars.entity'
 
 export class CarsTypeormRepository implements CarsRepository {
   constructor(private carsRepository: Repository<Car>) {}
   async findByLicensePlate(licensePlate: string): Promise<CarModel> {
-    return await this.carsRepository.findOne({ where: { licensePlate } })
+    return await this.carsRepository.findOne({
+      where: { licensePlate, status: In(['ativo', 'inativo']) },
+    })
   }
 
   async findAllAndFilter(params: findParams): Promise<findResults> {
@@ -48,12 +50,15 @@ export class CarsTypeormRepository implements CarsRepository {
     return await this.carsRepository.save(model)
   }
   async findById(id: string): Promise<CarModel> {
-    return await this.carsRepository.findOne({ where: { id: id } })
+    return await this.carsRepository.findOne({
+      where: { id: id },
+      relations: { items: true },
+    })
   }
   async update(model: CarModel): Promise<CarModel> {
     return await this.carsRepository.save(model)
   }
-  async delete(id: string): Promise<void> {
-    await this.carsRepository.delete(id)
+  async delete(model: CarModel): Promise<CarModel> {
+    return await this.carsRepository.save(model)
   }
 }
