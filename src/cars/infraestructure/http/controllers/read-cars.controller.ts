@@ -9,7 +9,7 @@ export async function readCarsController(req: Request, res: Response) {
     new CarsTypeormRepository(dataSource.getRepository(Car)),
   )
 
-  const newCar = await readCarsUseCase.execute({})
+  const cars = await readCarsUseCase.execute({})
 
-  return res.status(200).json(newCar)
+  return res.status(200).json(cars)
 }
