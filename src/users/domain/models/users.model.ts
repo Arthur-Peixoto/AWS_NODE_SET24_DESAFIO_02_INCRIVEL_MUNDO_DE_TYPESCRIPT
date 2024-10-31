@@ -2,7 +2,7 @@ export interface UserModel {
     id: string
     fullName: string
     email: string
-    password: string  //tem que cripotgrafaaaaaaaaaaaaaaaaaaaaaaaar
+    password: string
     registrationDate: Date
     deletionDate?: Date | null 
   }
