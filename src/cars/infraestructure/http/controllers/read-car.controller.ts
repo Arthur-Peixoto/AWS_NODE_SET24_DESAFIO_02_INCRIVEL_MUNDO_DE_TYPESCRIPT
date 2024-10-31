@@ -5,7 +5,7 @@ import { Car } from '../../typeorm/entities/cars.entity'
 import { ReadCarUseCase } from '@/cars/usecases/read-car.usecase'
 
 export async function readCarController(req: Request, res: Response) {
-  const { id } = req.body
+  const { id } = req.params
 
   const readCarUseCase = new ReadCarUseCase(
     new CarsTypeormRepository(dataSource.getRepository(Car)),
