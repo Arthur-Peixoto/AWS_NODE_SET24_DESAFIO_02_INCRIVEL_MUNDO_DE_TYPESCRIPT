@@ -9,7 +9,7 @@ export type UpdateCarInput = {
   year?: number
   items?: ItemModel[]
   price?: number
-  status: 'ativo' | 'inativo'
+  status?: 'ativo' | 'inativo' | 'excluído'
 }
 
 export type UpdateCarOutput = {
@@ -46,6 +46,12 @@ export class UpdateCarUseCase {
     if (!carExists) {
       throw new Error("Car don't exist")
     }
+
+    if (carExists.status === 'excluído')
+      throw new Error("Isn't possible to update excluded cars")
+
+    if (status === 'excluído')
+      throw new Error("Isn't possible to update status to 'excluído'")
 
     if (licensePlate) {
       const duplicatedCar =
