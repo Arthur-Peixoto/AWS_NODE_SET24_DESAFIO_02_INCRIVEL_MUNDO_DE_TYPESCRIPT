@@ -30,7 +30,10 @@ export class CreateCarUseCase {
 
   async execute(input: CreateCarInput): Promise<CreateCarOutput> {
     // verificar placa e status --> não permite carro com placa igual e status = ativo
-
+    const carExists = await this.carRepository.findByLicensePlate(
+      input.licensePlate,
+    )
+    if (carExists) throw new Error('Car already exists')
     const car = this.carRepository.create(input)
     await this.carRepository.insert(car)
 

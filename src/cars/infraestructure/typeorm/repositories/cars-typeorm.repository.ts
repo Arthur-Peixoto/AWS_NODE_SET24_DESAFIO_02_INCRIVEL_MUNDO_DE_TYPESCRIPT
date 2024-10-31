@@ -5,13 +5,15 @@ import {
   findParams,
   findResults,
 } from '@/cars/domain/repositories/cars.repository'
-import { Repository } from 'typeorm'
+import { In, Repository } from 'typeorm'
 import { Car } from '../entities/cars.entity'
 
 export class CarsTypeormRepository implements CarsRepository {
   constructor(private carsRepository: Repository<Car>) {}
   async findByLicensePlate(licensePlate: string): Promise<CarModel> {
-    return await this.carsRepository.findOne({ where: { licensePlate } })
+    return await this.carsRepository.findOne({
+      where: { licensePlate, status: In(['ativo', 'inativo']) },
+    })
   }
 
   async findAllAndFilter(params: findParams): Promise<findResults> {
