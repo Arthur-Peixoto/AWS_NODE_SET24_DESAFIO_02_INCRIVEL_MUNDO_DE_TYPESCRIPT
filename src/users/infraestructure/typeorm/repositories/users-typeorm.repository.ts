@@ -1,35 +1,28 @@
-import { UserModel } from '@/users/domain/models/users.model'
-import { UserRepository } from '@/users/domain/repositories/users.repository'
-import { Repository } from 'typeorm'
-import { User } from '../entities/users.entity'
+// src/users/typeorm/repositories/users-typeorm.repository.ts
+
+import { Repository } from 'typeorm';
+import { User } from '../entities/users.entity';
+import { UserRepository, CreateUserProps, UserFilterParams, UserPaginationParams, UserOrderByParams } from '@/users/domain/repositories/users.repository';
+import { UserModel } from '@/users/domain/models/users.model';
 
 export class UsersTypeormRepository implements UserRepository {
-  constructor(private usersRepository: Repository<User>) {}
-    findByID(id: string): Promise<UserModel | null> {
-        throw new Error('Method not implemented.')
-    }
-    
-  create(props: Partial<UserModel>): UserModel {
-    return this.usersRepository.create(props)
+  constructor(private readonly userRepository: Repository<User>) {}
+  
+  create(props: CreateUserProps): User {
+    return this.userRepository.create(props);
   }
 
-  async insert(model: UserModel): Promise<UserModel> {
-    return await this.usersRepository.save(model)
+  async insert(user: User): Promise<User> {
+    return await this.userRepository.save(user);
   }
 
-    findById(id: string): Promise<UserModel | null> {
-    return this.usersRepository.findOne({ where: { id } })
+  async findByID(id: string): Promise<User | null> {
+    return await this.userRepository.findOne({ where: { id } });
   }
 
-  async update(model: UserModel): Promise<UserModel> {
-    return await this.usersRepository.save(model)
+  async findByEmail(email: string): Promise<User | null> {
+    return await this.userRepository.findOne({ where: { email } });
   }
 
-  async delete(id: string): Promise<void> {
-    await this.usersRepository.delete(id)
-  }
-
-  async findByEmail(email: string): Promise<UserModel | null> {
-    return await this.usersRepository.findOne({ where: { email } }) //tem que usar essa bagaça pra login
-  }
+  
 }
