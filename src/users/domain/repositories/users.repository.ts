@@ -18,7 +18,15 @@ export type UserFilterParams = {
   deleted?: boolean;
 };
 
+export type UserPaginationParams = {
+  page: number;
+  perPage: number;
+};
 
+export type UserOrderByParams = {
+  field: 'fullName' | 'registrationDate' | 'deletionDate';
+  direction: 'ASC' | 'DESC';
+};
 
 export interface UserRepository
   extends RepositoryInterface<UserModel, CreateUserProps> {
@@ -27,6 +35,7 @@ export interface UserRepository
   
   findAllWithFilters(
     filters?: UserFilterParams,
-    
+    orderBy?: UserOrderByParams[],
+    pagination?: UserPaginationParams
   ): Promise<{ users: UserModel[]; total: number }>;
 }
