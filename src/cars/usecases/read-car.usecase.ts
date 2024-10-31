@@ -1,7 +1,7 @@
 import { CarModel } from '../domain/models/cars.model'
 import { CarsRepository } from '../domain/repositories/cars.repository'
 
-export class DeleteCarUseCase {
+export class ReadCarUseCase {
   constructor(private carRepository: CarsRepository) {}
 
   async execute(id: string): Promise<CarModel> {
