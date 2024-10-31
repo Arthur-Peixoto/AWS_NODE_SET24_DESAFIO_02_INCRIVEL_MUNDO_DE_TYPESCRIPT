@@ -8,11 +8,13 @@ import { UserModel } from '@/users/domain/models/users.model';
 export class UsersTypeormRepository implements UserRepository {
   constructor(private readonly userRepository: Repository<User>) {}
   findById(id: string): Promise<UserModel> {
-    throw new Error('Method not implemented.');
+    return this.userRepository.findOne({where: {id}});
   }
+  
   update(model: UserModel): Promise<UserModel> {
-    throw new Error('Method not implemented.');
+    return this.userRepository.save(model);
   }
+
   delete(id: string): Promise<void> {
     throw new Error('Method not implemented.');
   }
