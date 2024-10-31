@@ -50,7 +50,10 @@ export class CarsTypeormRepository implements CarsRepository {
     return await this.carsRepository.save(model)
   }
   async findById(id: string): Promise<CarModel> {
-    return await this.carsRepository.findOne({ where: { id: id } })
+    return await this.carsRepository.findOne({
+      where: { id: id },
+      relations: { items: true },
+    })
   }
   async update(model: CarModel): Promise<CarModel> {
     return await this.carsRepository.save(model)
