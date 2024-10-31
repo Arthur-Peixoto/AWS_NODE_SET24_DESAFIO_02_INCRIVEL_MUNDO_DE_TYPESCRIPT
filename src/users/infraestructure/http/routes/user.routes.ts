@@ -16,4 +16,8 @@ userRoutes.get('/users/:id', (req, res) => {
   getUserByIdController(req, res);
 });
 
+userRoutes.put('/users/:id', (req, res) => {
+  res.send('Update user')
+});
+
 export { userRoutes }
