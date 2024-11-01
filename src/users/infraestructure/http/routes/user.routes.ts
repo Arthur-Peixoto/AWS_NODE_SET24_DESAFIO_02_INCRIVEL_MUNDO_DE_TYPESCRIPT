@@ -21,4 +21,8 @@ userRoutes.put('/users/:id', (req, res) => {
   updateUserController(req, res);
 });
 
+userRoutes.delete('/users/:id', (req, res) => {
+  res.send('Delete user')
+});
+
 export { userRoutes }
