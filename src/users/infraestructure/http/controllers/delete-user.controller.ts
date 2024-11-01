@@ -5,7 +5,7 @@ import { dataSource } from '@/common/infraestructure/typeorm';
 import { DeleteUserUseCase } from '@/users/usecases/delete-user.usecase';
 
 
-    export async function DeleteUserController(req: Request, res: Response) {
+    export async function deleteUserController(req: Request, res: Response) {
         const { id } = req.params;
 
         const deleteUserUseCase = new DeleteUserUseCase(
