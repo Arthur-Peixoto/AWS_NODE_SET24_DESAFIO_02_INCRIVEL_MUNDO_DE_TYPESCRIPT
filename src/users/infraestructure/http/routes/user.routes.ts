@@ -3,6 +3,7 @@ import { createUserController } from '@/users/infraestructure/http/controllers/c
 import { listUsersController } from '../controllers/read-users.controller'
 import { getUserByIdController } from '../controllers/read-single-user.controller'
 import { updateUserController } from '../controllers/update-user.controller'
+import { deleteUserController } from '../controllers/delete-user.controller'
 const userRoutes = Router()
 
 userRoutes.post('/users/', (req, res) => {
@@ -22,7 +23,9 @@ userRoutes.put('/users/:id', (req, res) => {
 });
 
 userRoutes.delete('/users/:id', (req, res) => {
-  res.send('Delete user')
+  deleteUserController(req, res);
 });
+
+
 
 export { userRoutes }
