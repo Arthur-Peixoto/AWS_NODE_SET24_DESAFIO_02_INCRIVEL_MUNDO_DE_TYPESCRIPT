@@ -35,18 +35,6 @@ carRoutes.post(
   },
 )
 
-// page?: number
-//   per_page?: number
-//   model?: string
-//   brand?: string
-//   licensePlateFinalDigits?: string
-//   mileage?: number
-//   untilYear?: number
-//   fromYear?: number
-//   minPrice?: number
-//   maxPrice?: number
-//   items?: string[]
-
 carRoutes.get(
   '/',
   celebrate({
@@ -93,9 +81,32 @@ carRoutes.get(
   },
 )
 
-carRoutes.patch('/:id', (req, res) => {
-  updateCarController(req, res)
-})
+carRoutes.patch(
+  '/:id',
+  celebrate({
+    [Segments.PARAMS]: { id: Joi.string().uuid().required() },
+    [Segments.BODY]: {
+      model: Joi.string().optional(),
+      brand: Joi.string().optional(),
+      year: Joi.number()
+        .integer()
+        .min(CURRENT_YEAR - 11)
+        .max(CURRENT_YEAR)
+        .optional(),
+      licensePlate: Joi.string()
+        .length(8)
+        .pattern(/^[A-Za-z]{3}-[0-9]{4}$/)
+        .optional(),
+      mileage: Joi.number().positive().optional(),
+      items: Joi.array().items(Joi.string()).max(5).unique().optional(),
+      price: Joi.number().positive().precision(2).optional(),
+      status: Joi.string().valid('ativo', 'inativo').optional(),
+    },
+  }),
+  (req, res) => {
+    updateCarController(req, res)
+  },
+)
 
 carRoutes.delete('/:id', (req, res) => {
   deleteCarController(req, res)
