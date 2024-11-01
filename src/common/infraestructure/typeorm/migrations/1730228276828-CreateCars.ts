@@ -5,7 +5,7 @@ export class CreateCars1730228276828 implements MigrationInterface {
     await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
 
     await queryRunner.query(
-      "CREATE TYPE status_enum AS ENUM ('ativo', 'inativo', 'pendente')",
+      "CREATE TYPE status_enum AS ENUM ('ativo', 'inativo', 'excluído')",
     )
 
     await queryRunner.createTable(
