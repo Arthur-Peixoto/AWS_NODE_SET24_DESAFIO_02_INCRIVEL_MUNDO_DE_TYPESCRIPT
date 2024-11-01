@@ -35,9 +35,55 @@ carRoutes.post(
   },
 )
 
-carRoutes.get('/', (req, res) => {
-  readCarsController(req, res)
-})
+// page?: number
+//   per_page?: number
+//   model?: string
+//   brand?: string
+//   licensePlateFinalDigits?: string
+//   mileage?: number
+//   untilYear?: number
+//   fromYear?: number
+//   minPrice?: number
+//   maxPrice?: number
+//   items?: string[]
+
+carRoutes.get(
+  '/',
+  celebrate({
+    [Segments.QUERY]: {
+      page: Joi.number().positive().optional(),
+      per_page: Joi.number().positive().optional(),
+      model: Joi.string().optional(),
+      brand: Joi.string().optional(),
+      untilYear: Joi.number()
+        .positive()
+        .optional()
+        .when('fromYear', {
+          is: Joi.number().positive().required(),
+          then: Joi.number().positive().greater(Joi.ref('fromYear')),
+        }),
+      fromYear: Joi.number().positive().optional(),
+      minPrice: Joi.number().precision(2).positive().optional(),
+      maxPrice: Joi.number()
+        .precision(2)
+        .positive()
+        .optional()
+        .when('minPrice', {
+          is: Joi.number().precision(2).required(),
+          then: Joi.number().greater(Joi.ref('minPrice')),
+        }),
+      items: Joi.array().items(Joi.string()).max(5).unique().optional(),
+      mileage: Joi.number().positive().optional(),
+      licensePlateFinalDigits: Joi.string()
+        .length(4)
+        .pattern(/^[0-9]{4}$/)
+        .optional(),
+    },
+  }),
+  (req, res) => {
+    readCarsController(req, res)
+  },
+)
 
 carRoutes.get(
   '/:id',
