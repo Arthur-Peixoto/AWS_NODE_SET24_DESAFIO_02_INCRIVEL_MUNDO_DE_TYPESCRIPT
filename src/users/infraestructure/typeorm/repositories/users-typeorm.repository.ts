@@ -15,7 +15,7 @@ export class UsersTypeormRepository implements UserRepository {
     return this.userRepository.save(model);
   }
 
-  delete(id: string): Promise<void> {
+  delete(user: UserModel): Promise<UserModel> {
     throw new Error('Method not implemented.');
   }
 
