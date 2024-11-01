@@ -28,6 +28,7 @@ export class ReadCarsUseCase {
 
   async execute(input: readCarsInput): Promise<readCarsOutput> {
     // verificar placa e status --> não permite carro com placa igual e status = ativo
+
     const searchResults = await this.carRepository.findAllAndFilter(input)
 
     return searchResults
