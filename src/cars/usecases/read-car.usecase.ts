@@ -1,6 +1,6 @@
 import { CarsRepository } from '../domain/repositories/cars.repository'
 
-export type readCarOutput = {
+export type readOutput = {
   id: string
   model: string
   brand: string
