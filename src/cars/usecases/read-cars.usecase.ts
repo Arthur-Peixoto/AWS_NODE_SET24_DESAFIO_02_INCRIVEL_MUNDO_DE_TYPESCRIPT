@@ -1,5 +1,4 @@
 import { CarModel } from '../domain/models/cars.model'
-import { ItemModel } from '../domain/models/items.model'
 import { CarsRepository } from '../domain/repositories/cars.repository'
 
 export type readCarsInput = {
@@ -13,7 +12,7 @@ export type readCarsInput = {
   fromYear?: number
   minPrice?: number
   maxPrice?: number
-  items?: ItemModel[]
+  items?: string[]
 }
 
 export type readCarsOutput = {

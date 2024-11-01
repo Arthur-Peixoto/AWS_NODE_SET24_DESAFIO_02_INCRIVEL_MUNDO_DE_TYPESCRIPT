@@ -25,7 +25,7 @@ export type findParams = {
   fromYear?: number
   minPrice?: number
   maxPrice?: number
-  items?: ItemModel[]
+  items?: string[]
 }
 
 export type findResults = {
