@@ -108,8 +108,12 @@ carRoutes.patch(
   },
 )
 
-carRoutes.delete('/:id', (req, res) => {
-  deleteCarController(req, res)
-})
+carRoutes.delete(
+  '/:id',
+  celebrate({ [Segments.PARAMS]: { id: Joi.string().uuid().required() } }),
+  (req, res) => {
+    deleteCarController(req, res)
+  },
+)
 
 export { carRoutes }
