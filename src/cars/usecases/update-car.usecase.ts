@@ -7,7 +7,7 @@ export type UpdateCarInput = {
   licensePlate?: string
   mileage?: number
   year?: number
-  items?: ItemModel[]
+  items?: string[]
   price?: number
   status?: 'ativo' | 'inativo' | 'excluído'
 }
@@ -19,7 +19,7 @@ export type UpdateCarOutput = {
   licensePlate: string
   mileage?: number
   year: number
-  items: ItemModel[]
+  items: string[]
   price: number
   registrationDate: Date
   status: 'ativo' | 'inativo' | 'excluído'
@@ -60,23 +60,37 @@ export class UpdateCarUseCase {
         throw new Error('Invalid license plate!')
       }
     }
-
+    let itemsNames = []
+    if (items) {
+      itemsNames = items.map((item) => {
+        let id
+        let car
+        if (carExists.items.length > 0) {
+          const item = carExists.items.pop()
+          id = item.id
+          car = item.car
+        } else {
+          car = carExists
+        }
+        return { name: item, id, car }
+      })
+    }
     const car = {
       id: carExists.id,
       registrationDate: carExists.registrationDate,
-      model: model === undefined ? carExists.model : model,
-      brand: brand === undefined ? carExists.brand : brand,
-      mileage: mileage === undefined ? carExists.mileage : mileage,
-      year: year === undefined ? carExists.year : year,
-      price: price === undefined ? carExists.price : price,
-      status: status === undefined ? carExists.status : status,
-      items: items === undefined ? carExists.items : items,
-      licensePlate:
-        licensePlate === undefined ? carExists.licensePlate : licensePlate,
+      model: !model ? carExists.model : model,
+      brand: !brand ? carExists.brand : brand,
+      mileage: !mileage ? carExists.mileage : mileage,
+      year: !year ? carExists.year : year,
+      price: !price ? carExists.price : price,
+      status: !status ? carExists.status : status,
+      items: !items ? carExists.items : (itemsNames as ItemModel[]),
+      licensePlate: !licensePlate ? carExists.licensePlate : licensePlate,
     }
 
-    const updatedCar = this.carRepository.update(car)
+    const updatedCar = await this.carRepository.update(car)
+    itemsNames = updatedCar.items.map((item) => item.name)
 
-    return updatedCar
+    return { ...updatedCar, items: itemsNames }
   }
 }
