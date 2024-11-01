@@ -4,16 +4,16 @@ import { CarModel } from '@/cars/domain/models/cars.model'
 // import { ClientModel } from '../../clients/models/items.model'
 
 export type CreateOrderProps = {
-    id: string
-    cep: string
-    city: string
-    total: number
-    initialDate: Date
-    finalDate: Date
-    cancelDate: Date
-    status: 'Aberto' | 'Aprovado' | 'Cancelado'
-    uf: 'AC' | 'AL' | 'AM' | 'AP' | 'BA' | 'CE' | 'DF' | 'ES' | 'GO' | 'MA' | 'MG' | 'MS' | 'MT' | 'PA' | 'PB' | 'PE' | 'PI' | 'PR' | 'RJ' | 'RN' | 'RO' | 'RR' | 'RS' | 'SC' | 'SE' | 'SP' | 'TO'
-    // clients: CLientModel[]
+    id?: string
+    cep?: string
+    city?: string
+    total?: number
+    initialDate?: Date
+    finalDate?: Date
+    cancelDate?: Date
+    status?: 'Aberto' | 'Aprovado' | 'Cancelado'
+    uf?: 'AC' | 'AL' | 'AM' | 'AP' | 'BA' | 'CE' | 'DF' | 'ES' | 'GO' | 'MA' | 'MG' | 'MS' | 'MT' | 'PA' | 'PB' | 'PE' | 'PI' | 'PR' | 'RJ' | 'RN' | 'RO' | 'RR' | 'RS' | 'SC' | 'SE' | 'SP' | 'TO'
+    // client: CLientMode
     car: CarModel
   }
   
@@ -29,7 +29,7 @@ export type CreateOrderProps = {
   cancelDate?: Date | null
   status?: 'Aberto' | 'Aprovado' | 'Cancelado' | null
   uf?: 'AC' | 'AL' | 'AM' | 'AP' | 'BA' | 'CE' | 'DF' | 'ES' | 'GO' | 'MA' | 'MG' | 'MS' | 'MT' | 'PA' | 'PB' | 'PE' | 'PI' | 'PR' | 'RJ' | 'RN' | 'RO' | 'RR' | 'RS' | 'SC' | 'SE' | 'SP' | 'TO' | null
-  // clients?: CLientModel[]
+  // client?: CLientModel
   car?: CarModel
 }
 
