@@ -4,6 +4,7 @@ import { listUsersController } from '../controllers/read-users.controller'
 import { getUserByIdController } from '../controllers/read-single-user.controller'
 import { updateUserController } from '../controllers/update-user.controller'
 import { deleteUserController } from '../controllers/delete-user.controller'
+import { loginUserController } from '../controllers/login.controller'
 const userRoutes = Router()
 
 userRoutes.post('/users/', (req, res) => {
@@ -26,6 +27,8 @@ userRoutes.delete('/users/:id', (req, res) => {
   deleteUserController(req, res);
 });
 
-
+userRoutes.post('/signup', (req, res) => {
+  loginUserController(req, res);
+});
 
 export { userRoutes }
