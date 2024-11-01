@@ -1,5 +1,7 @@
+import { dataSource } from '@/common/infraestructure/typeorm'
 import { ItemModel } from '../domain/models/items.model'
 import { CarsRepository } from '../domain/repositories/cars.repository'
+import { Item } from '../infraestructure/typeorm/entities/items.entity'
 
 export type UpdateCarInput = {
   model?: string
@@ -62,18 +64,21 @@ export class UpdateCarUseCase {
     }
     let itemsNames = []
     if (items) {
+      const itemsRepository = dataSource.getRepository(Item)
       itemsNames = items.map((item) => {
         let id
-        let car
+        const car = carExists
         if (carExists.items.length > 0) {
-          const item = carExists.items.pop()
+          const item = carExists.items.shift()
           id = item.id
-          car = item.car
-        } else {
-          car = carExists
         }
         return { name: item, id, car }
       })
+      await Promise.all(
+        carExists.items.map(async (item) => {
+          await itemsRepository.delete({ id: item.id })
+        }),
+      )
     }
     const car = {
       id: carExists.id,
