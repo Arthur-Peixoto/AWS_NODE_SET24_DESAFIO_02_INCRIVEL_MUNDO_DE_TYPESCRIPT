@@ -6,6 +6,7 @@ import { CreateUsers1730228906206 } from './migrations/1730250492317-CreateUsers
 import { CreateTokens1730228906207 } from './migrations/1730251259678-CreateTokens'
 import { Car } from '@/cars/infraestructure/typeorm/entities/cars.entity'
 import { Item } from '@/cars/infraestructure/typeorm/entities/items.entity'
+import { ChangeTypeOfPrice1730489667223 } from './migrations/1730489667223-changeTypeOfPrice'
 
 export const dataSource = new DataSource({
   type: 'postgres',
@@ -20,6 +21,7 @@ export const dataSource = new DataSource({
     CreateUsers1730228906206,
     CreateTokens1730228906207,
     CreateOrders1730237813958,
+    ChangeTypeOfPrice1730489667223,
   ],
   entities: [Car, Item],
 })
