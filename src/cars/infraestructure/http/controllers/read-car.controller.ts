@@ -13,7 +13,5 @@ export async function readCarController(req: Request, res: Response) {
 
   const car = await readCarUseCase.execute(id)
 
-  if (!car) throw new Error("Car don't exist!")
-
   return res.status(200).json(car)
 }
