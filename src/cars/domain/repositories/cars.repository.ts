@@ -26,6 +26,7 @@ export type findParams = {
   minPrice?: number
   maxPrice?: number
   items?: string[]
+  status?: 'ativo' | 'inativo'
 }
 
 export type findResults = {

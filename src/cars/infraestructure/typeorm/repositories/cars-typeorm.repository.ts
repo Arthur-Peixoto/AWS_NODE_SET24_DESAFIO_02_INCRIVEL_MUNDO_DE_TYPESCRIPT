@@ -37,6 +37,7 @@ export class CarsTypeormRepository implements CarsRepository {
       minPrice,
       maxPrice,
       items,
+      status,
     } = params
     const options: FindOptionsWhere<Car> = {}
     if (items) {
@@ -56,7 +57,9 @@ export class CarsTypeormRepository implements CarsRepository {
 
     if (licensePlateFinalDigits)
       options.licensePlate = Like(`%${licensePlateFinalDigits}`)
-    if (mileage) options.mileage = options.mileage = LessThanOrEqual(mileage)
+    if (mileage) options.mileage = LessThanOrEqual(mileage)
+
+    options.status = status ? In([status]) : In(['ativo', 'inativo'])
     let take: number = 0
     let skip: number = 0
     take = per_page ? per_page : 10

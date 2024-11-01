@@ -66,6 +66,7 @@ carRoutes.get(
         .length(4)
         .pattern(/^[0-9]{4}$/)
         .optional(),
+      status: Joi.string().valid('ativo', 'inativo').optional(),
     },
   }),
   (req, res) => {
