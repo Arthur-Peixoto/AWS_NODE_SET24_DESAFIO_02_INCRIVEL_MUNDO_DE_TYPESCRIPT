@@ -1,5 +1,6 @@
+import { Car } from "@/cars/infraestructure/typeorm/entities/cars.entity";
 import { OrderModel } from "@/orders/domain/models/orders.model";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 // import { CLient } from '../../clients/domain/clients.entity'
 
@@ -34,4 +35,7 @@ export class Order implements OrderModel {
 
     // @ManyToOne(() => Client, (client) => client.orders)
     // client: Client
+    @OneToOne(() => Car)
+    @JoinColumn()
+    car: Car
 }
