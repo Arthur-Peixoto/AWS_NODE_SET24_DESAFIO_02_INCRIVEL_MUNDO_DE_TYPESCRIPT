@@ -1,5 +1,5 @@
-import { TokenRepository } from '@/users/domain/repositories/tokens.repository'; // Importando a interface do repositório
-import { Token } from '../entities/tokens.entity'; // Importando a entidade Token
+import { TokenRepository } from '@/users/domain/repositories/tokens.repository';
+import { Token } from '../entities/tokens.entity'; 
 import { Repository } from 'typeorm';
 import { TokenModel } from '@/users/domain/models/token.model';
 
