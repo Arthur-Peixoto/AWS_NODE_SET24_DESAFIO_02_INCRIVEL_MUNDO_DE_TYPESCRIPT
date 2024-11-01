@@ -12,5 +12,5 @@ export async function deleteCarController(req: Request, res: Response) {
 
   const deletedCar = await deleteCarUseCase.execute(id)
 
-  return res.status(201).json(deletedCar)
+  return res.status(200).json(deletedCar)
 }
