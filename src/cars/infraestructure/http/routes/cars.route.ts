@@ -39,9 +39,13 @@ carRoutes.get('/', (req, res) => {
   readCarsController(req, res)
 })
 
-carRoutes.get('/:id', (req, res) => {
-  readCarController(req, res)
-})
+carRoutes.get(
+  '/:id',
+  celebrate({ [Segments.PARAMS]: { id: Joi.string().uuid().required() } }),
+  (req, res) => {
+    readCarController(req, res)
+  },
+)
 
 carRoutes.patch('/:id', (req, res) => {
   updateCarController(req, res)
