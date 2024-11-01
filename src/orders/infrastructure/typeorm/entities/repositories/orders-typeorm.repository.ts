@@ -9,9 +9,14 @@ import {
 } from '@/orders/domain/repositories/orders.repository'
 import { Repository } from 'typeorm'
 import { Order } from '../entities/orders.entity'
+import { dataSource } from '@/common/infraestructure/typeorm'
 
 export class OrdersTypeormRepository implements OrdersRepository {
-  constructor(private ordersRepository: Repository<Order>) {}
+  ordersRepository: Repository<Order>
+
+  constructor() {
+    this.ordersRepository = dataSource.getRepository(Order)
+  }
   // TODO: findAllAndFilter
   async findAllAndFilter(params: findParams): Promise<findResults> {
     const id: string = params.id
@@ -49,7 +54,7 @@ export class OrdersTypeormRepository implements OrdersRepository {
 
   async update(model: OrderModel): Promise<OrderModel> {
     await this.findById(model.id)
-    await this.ordersRepository.update({id: model.id}, model)
+    await this.ordersRepository.update({ id: model.id }, model)
     return model
   }
 
