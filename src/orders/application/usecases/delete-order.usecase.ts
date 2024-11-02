@@ -16,6 +16,7 @@ export class DeleteOrderUseCase {
     }
 
     orderExists.status = 'Cancelado'
+    orderExists.cancelDate = new Date(Date.now())
 
     await this.orderRepository.update(orderExists)
   }
