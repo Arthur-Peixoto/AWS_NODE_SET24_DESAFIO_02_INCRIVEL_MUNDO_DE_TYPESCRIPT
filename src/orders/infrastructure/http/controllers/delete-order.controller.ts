@@ -15,9 +15,9 @@ export async function deleteOrderController(
       new OrdersTypeormRepository(dataSource.getRepository(Order)),
     )
 
-    const deletedOrder = await deleteOrderUseCase.execute(id)
+    await deleteOrderUseCase.execute(id)
 
-    return res.status(200).json(deletedOrder)
+    return res.status(201).send()
   } catch (err) {
     next(err)
   }
