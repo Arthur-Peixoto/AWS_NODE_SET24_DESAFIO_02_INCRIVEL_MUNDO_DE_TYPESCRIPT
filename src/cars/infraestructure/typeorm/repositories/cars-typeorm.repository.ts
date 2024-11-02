@@ -15,6 +15,7 @@ import {
   Repository,
 } from 'typeorm'
 import { Car } from '../entities/cars.entity'
+import { AppError } from '@/common/domain/errors/app-error'
 
 export class CarsTypeormRepository implements CarsRepository {
   constructor(private carsRepository: Repository<Car>) {}
@@ -71,8 +72,7 @@ export class CarsTypeormRepository implements CarsRepository {
       skip,
       take,
     })
-
-    if (!data) throw new Error('Car not found')
+    if (data.length === 0) throw new AppError("Car don't exist", 404)
 
     const ids = data.map((car) => car.id)
     const cars = await this.carsRepository.find({

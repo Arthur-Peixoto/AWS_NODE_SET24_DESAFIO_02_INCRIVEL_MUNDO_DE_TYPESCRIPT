@@ -69,8 +69,8 @@ carRoutes.get(
       status: Joi.string().valid('ativo', 'inativo').optional(),
     },
   }),
-  (req, res) => {
-    readCarsController(req, res)
+  (req, res, next) => {
+    readCarsController(req, res, next)
   },
 )
 
