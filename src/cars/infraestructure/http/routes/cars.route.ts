@@ -77,8 +77,8 @@ carRoutes.get(
 carRoutes.get(
   '/:id',
   celebrate({ [Segments.PARAMS]: { id: Joi.string().uuid().required() } }),
-  (req, res) => {
-    readCarController(req, res)
+  (req, res, next) => {
+    readCarController(req, res, next)
   },
 )
 
