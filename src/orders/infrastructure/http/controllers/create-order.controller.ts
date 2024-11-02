@@ -29,9 +29,9 @@ export async function createOrderController(
 
   const { car } = request.body
 
-  const repository = new OrdersTypeormRepository()
-  repository.ordersRepository = dataSource.getRepository(Order)
-  const createOrderUseCase = new CreateOrderUseCase.UseCase(repository)
+  const createOrderUseCase = new CreateOrderUseCase.UseCase(
+    new OrdersTypeormRepository(dataSource.getRepository(Order))
+  )
 
   const order = await createOrderUseCase.execute({
     car,
