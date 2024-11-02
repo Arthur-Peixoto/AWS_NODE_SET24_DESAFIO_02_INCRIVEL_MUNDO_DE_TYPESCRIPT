@@ -1,3 +1,4 @@
+import { AppError } from '@/common/domain/errors/app-error'
 import { CarsRepository } from '../domain/repositories/cars.repository'
 
 export type readOutput = {
@@ -18,7 +19,7 @@ export class ReadCarUseCase {
 
   async execute(id: string): Promise<readOutput> {
     const car = await this.carRepository.findById(id)
-    if (!car) throw new Error("Car don't exist!")
+    if (!car) throw new AppError("Car don't exist!", 404)
 
     const itemsName = car.items.map((item) => item.name)
     return { ...car, items: itemsName }

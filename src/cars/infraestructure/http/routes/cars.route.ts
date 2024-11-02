@@ -30,8 +30,8 @@ carRoutes.post(
       status: Joi.string().valid('ativo', 'inativo').required(),
     },
   }),
-  (req, res) => {
-    createCarController(req, res)
+  (req, res, next) => {
+    createCarController(req, res, next)
   },
 )
 
@@ -69,16 +69,16 @@ carRoutes.get(
       status: Joi.string().valid('ativo', 'inativo').optional(),
     },
   }),
-  (req, res) => {
-    readCarsController(req, res)
+  (req, res, next) => {
+    readCarsController(req, res, next)
   },
 )
 
 carRoutes.get(
   '/:id',
   celebrate({ [Segments.PARAMS]: { id: Joi.string().uuid().required() } }),
-  (req, res) => {
-    readCarController(req, res)
+  (req, res, next) => {
+    readCarController(req, res, next)
   },
 )
 
@@ -104,16 +104,16 @@ carRoutes.patch(
       status: Joi.string().valid('ativo', 'inativo').optional(),
     },
   }),
-  (req, res) => {
-    updateCarController(req, res)
+  (req, res, next) => {
+    updateCarController(req, res, next)
   },
 )
 
 carRoutes.delete(
   '/:id',
   celebrate({ [Segments.PARAMS]: { id: Joi.string().uuid().required() } }),
-  (req, res) => {
-    deleteCarController(req, res)
+  (req, res, next) => {
+    deleteCarController(req, res, next)
   },
 )
 
