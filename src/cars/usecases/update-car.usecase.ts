@@ -2,6 +2,7 @@ import { dataSource } from '@/common/infraestructure/typeorm'
 import { ItemModel } from '../domain/models/items.model'
 import { CarsRepository } from '../domain/repositories/cars.repository'
 import { Item } from '../infraestructure/typeorm/entities/items.entity'
+import { AppError } from '@/common/domain/errors/app-error'
 
 export type UpdateCarInput = {
   model?: string
@@ -46,20 +47,17 @@ export class UpdateCarUseCase {
     const carExists = await this.carRepository.findById(id)
 
     if (!carExists) {
-      throw new Error("Car don't exist")
+      throw new AppError("Car don't exist", 404)
     }
 
     if (carExists.status === 'excluído')
-      throw new Error("Isn't possible to update excluded cars")
-
-    if (status === 'excluído')
-      throw new Error("Isn't possible to update status to 'excluído'")
+      throw new AppError("Isn't possible to update excluded cars", 403)
 
     if (licensePlate) {
       const duplicatedCar =
         await this.carRepository.findByLicensePlate(licensePlate)
       if (duplicatedCar && duplicatedCar.id !== carExists.id) {
-        throw new Error('Invalid license plate!')
+        throw new AppError('Car already exists!', 409)
       }
     }
     let itemsNames = []

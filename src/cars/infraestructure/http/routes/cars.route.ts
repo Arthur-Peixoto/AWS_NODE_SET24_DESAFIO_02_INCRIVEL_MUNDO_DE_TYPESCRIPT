@@ -104,8 +104,8 @@ carRoutes.patch(
       status: Joi.string().valid('ativo', 'inativo').optional(),
     },
   }),
-  (req, res) => {
-    updateCarController(req, res)
+  (req, res, next) => {
+    updateCarController(req, res, next)
   },
 )
 
