@@ -15,28 +15,60 @@ export class Order implements OrderModel {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column('varchar')
-  cep: string
+  @Column({ nullable: true })
+  cep: string | null
 
-  @Column('varchar')
-  city: string
+  @Column({ nullable: true })
+  city: string | null
 
-  @Column('decimal')
+  @Column({type: 'decimal', default: 0})
   total: number
 
-  @Column('timestamp')
-  initialDate: Date
+  @Column({ nullable: true })
+  initialDate: Date | null
 
-  @Column('timestamp')
-  finalDate: Date
+  @Column({ nullable: true })
+  finalDate: Date | null
 
-  @Column('timestamp')
-  cancelDate: Date
+  @Column({ nullable: true })
+  cancelDate: Date | null
 
-  @Column('status_enum')
-  status: 'Aberto' | 'Aprovado' | 'Cancelado'
+  @Column({ type: 'enum', enum: ['Aberto', 'Aprovado', 'Cancelado'], nullable: true })
+  status: 'Aberto' | 'Aprovado' | 'Cancelado' | null
 
-  @Column('uf_enum')
+  @Column({
+    nullable: true,
+    type: 'enum',
+    enum: [
+      'AC',
+      'AL',
+      'AM',
+      'AP',
+      'BA',
+      'CE',
+      'DF',
+      'ES',
+      'GO',
+      'MA',
+      'MG',
+      'MS',
+      'MT',
+      'PA',
+      'PB',
+      'PE',
+      'PI',
+      'PR',
+      'RJ',
+      'RN',
+      'RO',
+      'RR',
+      'RS',
+      'SC',
+      'SE',
+      'SP',
+      'TO',
+    ],
+  })
   uf:
     | 'AC'
     | 'AL'
@@ -65,7 +97,7 @@ export class Order implements OrderModel {
     | 'SE'
     | 'SP'
     | 'TO'
-
+    | null
   // @ManyToOne(() => Client, (client) => client.orders)
   // client: Client
   @OneToOne(() => Car)

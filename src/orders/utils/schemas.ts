@@ -1,10 +1,10 @@
 import { z } from 'zod'
 
-const ItemSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  car: z.any(),
-})
+// const ItemSchema = z.object({
+//   id: z.string(),
+//   name: z.string(),
+//   car: z.any(),
+// })
 
 export const CarSchema = z.object({
   id: z.string(),
@@ -13,8 +13,8 @@ export const CarSchema = z.object({
   model: z.string(),
   mileage: z.union([z.number(), z.null()]),
   year: z.number(),
-  items: z.array(ItemSchema),
+  items: z.array(z.string()),
   price: z.number(),
-  registrationDate: z.date(),
+  registrationDate: z.string(),
   status: z.enum(['ativo', 'inativo', 'excluído']),
 })

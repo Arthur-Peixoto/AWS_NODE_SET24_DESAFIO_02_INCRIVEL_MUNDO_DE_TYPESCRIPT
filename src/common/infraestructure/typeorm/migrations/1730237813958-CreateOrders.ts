@@ -34,22 +34,26 @@ export class CreateOrders1730237813958 implements MigrationInterface {
           {
             name: 'status',
             type: 'status_enum',
-            isNullable: false,
+            default: null,
+            isNullable: true,
           },
           {
             name: 'cep',
             type: 'varchar',
-            isNullable: false,
+            default: null,
+            isNullable: true,
           },
           {
             name: 'city',
             type: 'varchar',
-            isNullable: false,
+            default: null,
+            isNullable: true,
           },
           {
             name: 'uf',
             type: 'uf_enum',
-            isNullable: false,
+            default: null,
+            isNullable: true,
           },
           {
             name: 'total_value',
@@ -57,7 +61,7 @@ export class CreateOrders1730237813958 implements MigrationInterface {
             precision: 10,
             scale: 2,
             default: 0,
-            isNullable: false,
+            isNullable: true,
           },
           {
             name: 'cancel_date',
