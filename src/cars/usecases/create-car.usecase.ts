@@ -1,3 +1,4 @@
+import { CarModel } from '../domain/models/cars.model'
 import { ItemModel } from '../domain/models/items.model'
 import { CarsRepository } from '../domain/repositories/cars.repository'
 
@@ -7,7 +8,7 @@ export type CreateCarInput = {
   licensePlate: string
   mileage?: number
   year: number
-  items: ItemModel[]
+  items: string[]
   price: number
   status: 'ativo' | 'inativo' | 'excluído'
 }
@@ -19,7 +20,7 @@ export type CreateCarOutput = {
   licensePlate: string
   mileage?: number
   year: number
-  items: ItemModel[]
+  items: string[]
   price: number
   registrationDate: Date
   status: 'ativo' | 'inativo' | 'excluído'
@@ -34,19 +35,27 @@ export class CreateCarUseCase {
       input.licensePlate,
     )
     if (carExists) throw new Error('Car already exists')
-    const car = this.carRepository.create(input)
-    await this.carRepository.insert(car)
+
+    const car = {
+      ...input,
+      items: input.items.map((item) => {
+        return { name: item }
+      }) as ItemModel[],
+    }
+
+    const carInst = this.carRepository.create(car)
+    await this.carRepository.insert(carInst)
 
     return {
-      id: car.id,
+      id: carInst.id,
       model: car.model,
       brand: car.brand,
       licensePlate: car.licensePlate,
       mileage: car.mileage,
       year: car.year,
-      items: car.items,
+      items: input.items,
       price: car.price,
-      registrationDate: car.registrationDate,
+      registrationDate: carInst.registrationDate,
       status: car.status,
     }
   }

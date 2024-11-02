@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/Arthur-Peixoto/AWS_NODE_SET24_DESAFIO_02_INCRIVEL_MUNDO_DE_TYPESCRIPT#readme",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "celebrate": "^15.0.3",
     "dotenv-cli": "^7.4.2",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
@@ -32,6 +34,7 @@
     "@eslint/js": "^9.13.0",
     "@types/eslint-config-prettier": "^6.11.3",
     "@types/express": "^5.0.0",
+    "@types/joi": "^17.2.2",
     "@types/node": "^22.8.2",
     "eslint": "^9.13.0",
     "eslint-plugin-prettier": "^5.2.1",

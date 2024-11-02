@@ -1,5 +1,3 @@
-// src/users/domain/repositories/user.repository.ts
-
 import { RepositoryInterface } from '@/common/domain/repositories/repository.interface';
 import { UserModel } from '@/users/domain/models/users.model';
 

@@ -1,6 +1,5 @@
-import { CarModel } from '../domain/models/cars.model'
-import { ItemModel } from '../domain/models/items.model'
 import { CarsRepository } from '../domain/repositories/cars.repository'
+import { readOutput } from './read-car.usecase'
 
 export type readCarsInput = {
   page?: number
@@ -13,14 +12,14 @@ export type readCarsInput = {
   fromYear?: number
   minPrice?: number
   maxPrice?: number
-  items?: ItemModel[]
+  items?: string[]
 }
 
 export type readCarsOutput = {
   per_page: number
   page: number
   count: number
-  data: CarModel[]
+  data: readOutput[]
 }
 
 export class ReadCarsUseCase {
@@ -28,8 +27,13 @@ export class ReadCarsUseCase {
 
   async execute(input: readCarsInput): Promise<readCarsOutput> {
     // verificar placa e status --> não permite carro com placa igual e status = ativo
-    const searchResults = await this.carRepository.findAllAndFilter(input)
 
-    return searchResults
+    const searchResults = await this.carRepository.findAllAndFilter(input)
+    const returnedData: readOutput[] = []
+    searchResults.data.map((car) => {
+      const itemsNames = car.items.map((item) => item.name)
+      returnedData.push({ ...car, items: itemsNames })
+    })
+    return { ...searchResults, data: returnedData }
   }
 }
