@@ -7,27 +7,85 @@ import {
   findParams,
   findResults,
 } from '@/orders/domain/repositories/orders.repository'
-import { Repository } from 'typeorm'
+import {
+  Between,
+  FindOptionsWhere,
+  In,
+  LessThan,
+  LessThanOrEqual,
+  MoreThan,
+  MoreThanOrEqual,
+  Repository,
+} from 'typeorm'
 import { Order } from '../entities/orders.entity'
-import { dataSource } from '@/common/infraestructure/typeorm'
 
 export class OrdersTypeormRepository implements OrdersRepository {
-  ordersRepository: Repository<Order>
+  constructor(private ordersRepository: Repository<Order>) {}
 
-  constructor() {
-    this.ordersRepository = dataSource.getRepository(Order)
-  }
-  // TODO: findAllAndFilter
   async findAllAndFilter(params: findParams): Promise<findResults> {
-    const id: string = params.id
+    const {
+      page,
+      per_page,
+      cep,
+      city,
+      total,
+      initialDate,
+      finalDate,
+      cancelDate,
+      status,
+      uf,
+    } = params
+    const options: FindOptionsWhere<Order> = {}
+
+    if (cep) options.cep = cep
+    if (city) options.city = city
+    if (total) options.total = total
+    if (cancelDate) options.cancelDate = cancelDate
+    if (uf) options.uf = uf
+
+    if (finalDate && initialDate) {
+      options.initialDate = Between(initialDate, finalDate)
+      options.finalDate = Between(initialDate, finalDate)
+    } else {
+      if (initialDate) {
+        options.finalDate = MoreThan(initialDate)
+        options.initialDate = MoreThanOrEqual(initialDate)
+      }
+      if (finalDate) {
+        options.initialDate = LessThan(finalDate)
+        options.finalDate = LessThanOrEqual(finalDate)
+      }
+    }
+
+    options.status = status
+      ? In([status])
+      : In(['Aberto', 'Aprovado', 'Cancelado'])
+
+    let take: number = 0
+    let skip: number = 0
+    take = per_page ? per_page : 10
+    skip = page ? (page - 1) * take : 0
+
     const [data, count] = await this.ordersRepository.findAndCount({
-      where: { id },
+      where: { ...options },
+      // relations
+      skip,
+      take,
     })
+
+    if (!data) throw new Error('Order not found')
+
+    const ids = data.map((order) => order.id)
+    const orders = await this.ordersRepository.find({
+      where: {id: In(ids)},
+      // relations
+    })
+
     return {
-      per_page: 0,
-      page: 0,
+      per_page: take,
+      page: page ? page : 1,
       count: count,
-      data,
+      data: orders,
     }
   }
 
@@ -45,9 +103,10 @@ export class OrdersTypeormRepository implements OrdersRepository {
       // relations: { client: true },
     })
 
-    // if (!order) {
-    //   throw new EntityNotFoundError(`Order not found using id ${id}`)
-    // }
+    // EntityNotFoundError
+    if (!order) {
+      throw new Error(`Order not found using id ${id}`)
+    }
 
     return order
   }
