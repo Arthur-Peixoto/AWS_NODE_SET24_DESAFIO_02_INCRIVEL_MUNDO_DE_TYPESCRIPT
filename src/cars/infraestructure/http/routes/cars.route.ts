@@ -30,8 +30,8 @@ carRoutes.post(
       status: Joi.string().valid('ativo', 'inativo').required(),
     },
   }),
-  (req, res) => {
-    createCarController(req, res)
+  (req, res, next) => {
+    createCarController(req, res, next)
   },
 )
 

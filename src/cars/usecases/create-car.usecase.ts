@@ -1,4 +1,4 @@
-import { CarModel } from '../domain/models/cars.model'
+import { AppError } from '@/common/domain/errors/app-error'
 import { ItemModel } from '../domain/models/items.model'
 import { CarsRepository } from '../domain/repositories/cars.repository'
 
@@ -34,7 +34,7 @@ export class CreateCarUseCase {
     const carExists = await this.carRepository.findByLicensePlate(
       input.licensePlate,
     )
-    if (carExists) throw new Error('Car already exists')
+    if (carExists) throw new AppError('Car already exists', 409)
 
     const car = {
       ...input,
