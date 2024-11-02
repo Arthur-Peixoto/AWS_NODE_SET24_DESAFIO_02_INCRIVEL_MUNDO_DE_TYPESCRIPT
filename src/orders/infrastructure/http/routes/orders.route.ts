@@ -4,6 +4,7 @@ import { readOrderController } from '../controllers/read-order.controller'
 // import { readOrdersController } from '../controllers/read-orders.controller'
 import { celebrate, Joi, Segments } from 'celebrate'
 import { deleteOrderController } from '../controllers/delete-order.controller'
+import { updateOrderController } from '../controllers/update-order.controller'
 
 const orderRoutes = Router()
 
@@ -18,6 +19,13 @@ orderRoutes.post('/', (req, res) => {
 orderRoutes.get('/:id', (req, res) => {
     readOrderController(req, res)
 })
+
+orderRoutes.patch(
+  '/:id',
+  (req, res, next) => {
+    updateOrderController(req, res, next)
+  }
+)
 
 orderRoutes.delete(
     '/:id',
