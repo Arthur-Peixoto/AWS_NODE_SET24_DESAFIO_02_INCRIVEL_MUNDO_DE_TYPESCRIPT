@@ -33,6 +33,10 @@ export class UpdateUserUseCase {
       }
     }
 
+    let hashedPassword = user.password;
+    if (input.password) {
+      hashedPassword = await bcrypt.hash(input.password, 10);
+    }
 
     const updatedData: UserModel = {
       ...user,
