@@ -4,12 +4,11 @@ import { isValidUF, ufUnion } from '@/orders/utils/ufUnion'
 
 export type UpdateOrderInput = {
   cep?: string
-  // city?: string
   total?: number
   initialDate?: Date
   finalDate?: Date
+  cancelDate?: Date
   status?: 'Aberto' | 'Aprovado' | 'Cancelado'
-  // uf?: ufUnion
 }
 
 export type UpdateOrderOutput = {
@@ -32,6 +31,7 @@ export class UpdateOrderUseCase {
       total,
       initialDate,
       finalDate,
+      cancelDate,
       status,
     }: UpdateOrderInput,
   ): Promise<UpdateOrderOutput> {
@@ -50,7 +50,7 @@ export class UpdateOrderUseCase {
     }
 
     if (!initialDate) {
-      const initialDate = (await this.orderRepository.findById(id)).initialDate
+      const initialDate: Date = orderExists.initialDate
       if (finalDate && new Date(finalDate) < new Date(initialDate)) {
         throw new AppError("Final date can't be less then the initial date", 400)
       }
@@ -79,6 +79,24 @@ export class UpdateOrderUseCase {
       city = data.localidade
     }
 
+    switch (status) {
+      case 'Aprovado':
+        if (orderExists.status == 'Cancelado' || !(cep && total && initialDate && finalDate && !cancelDate)) 
+          throw new AppError("Order is cancelled or has a null field or a 'cancelDate' field", 400)
+        break
+      case 'Aberto':
+        if (orderExists.status == 'Cancelado')
+          throw new AppError("Order is already cancelled", 400)
+        if (orderExists.status == 'Aprovado')
+          throw new AppError("Order is already approved", 400)
+        break
+      case 'Cancelado': 
+      if (orderExists.status == 'Aprovado' || !cancelDate) 
+        throw new AppError("Order is approved or misses a 'cancelDate' field", 400)
+        break
+      default: throw new AppError("Internal Error Server", 500)
+    }
+
     const order = {
       id: orderExists.id,
       cep: !cep ? orderExists.cep : cep,
@@ -88,7 +106,7 @@ export class UpdateOrderUseCase {
       finalDate: !finalDate ? orderExists.finalDate : finalDate,
       status: !status ? orderExists.status : status,
       uf: !cep ? orderExists.uf : uf,
-      cancelDate: orderExists.cancelDate,
+      cancelDate: !cancelDate ? orderExists.cancelDate : cancelDate,
       car: orderExists.car,
     }
 
