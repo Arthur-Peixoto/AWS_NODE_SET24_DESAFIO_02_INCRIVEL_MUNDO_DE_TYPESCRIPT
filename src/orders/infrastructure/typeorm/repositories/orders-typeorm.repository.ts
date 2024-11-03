@@ -77,7 +77,7 @@ export class OrdersTypeormRepository implements OrdersRepository {
 
     const ids = data.map((order) => order.id)
     const orders = await this.ordersRepository.find({
-      where: {id: In(ids)},
+      where: { id: In(ids) },
       // relations
     })
 

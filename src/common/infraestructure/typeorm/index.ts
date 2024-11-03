@@ -7,7 +7,7 @@ import { CreateTokens1730228906207 } from './migrations/1730251259678-CreateToke
 import { Car } from '@/cars/infraestructure/typeorm/entities/cars.entity'
 import { Item } from '@/cars/infraestructure/typeorm/entities/items.entity'
 import { ChangeTypeOfPrice1730489667223 } from './migrations/1730489667223-changeTypeOfPrice'
-import { Order } from '@/orders/infrastructure/typeorm/entities/entities/orders.entity'
+import { Order } from '@/orders/infrastructure/typeorm/entities/orders.entity'
 // import { User } from '@/users/infraestructure/typeorm/entities/users.entity'
 // import { Order } from '@/orders/infrastructure/typeorm/entities/entities/orders.entity'
 

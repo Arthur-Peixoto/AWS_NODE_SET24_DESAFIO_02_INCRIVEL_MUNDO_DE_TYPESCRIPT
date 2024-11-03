@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express'
 import { dataSource } from '@/common/infraestructure/typeorm'
 import { DeleteOrderUseCase } from '@/orders/application/usecases/delete-order.usecase'
-import { OrdersTypeormRepository } from '../../typeorm/entities/repositories/orders-typeorm.repository'
-import { Order } from '../../typeorm/entities/entities/orders.entity'
+import { OrdersTypeormRepository } from '../../typeorm/repositories/orders-typeorm.repository'
+import { Order } from '../../typeorm/entities/orders.entity'
 
 export async function deleteOrderController(
   req: Request,

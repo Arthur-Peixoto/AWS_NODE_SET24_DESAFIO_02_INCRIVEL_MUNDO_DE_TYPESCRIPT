@@ -1,5 +1,6 @@
 import { CarModel } from '@/cars/domain/models/cars.model'
 import { OrdersRepository } from '@/orders/domain/repositories/orders.repository'
+import { ufUnion } from '@/orders/utils/ufUnion'
 
 /* eslint-disable @typescript-eslint/no-namespace */
 export namespace CreateOrderUseCase {
@@ -19,34 +20,7 @@ export namespace CreateOrderUseCase {
     // client: ClientModel
     car: CarModel
     status: 'Aberto' | 'Aprovado' | 'Cancelado'
-    uf:
-      | 'AC'
-      | 'AL'
-      | 'AM'
-      | 'AP'
-      | 'BA'
-      | 'CE'
-      | 'DF'
-      | 'ES'
-      | 'GO'
-      | 'MA'
-      | 'MG'
-      | 'MS'
-      | 'MT'
-      | 'PA'
-      | 'PB'
-      | 'PE'
-      | 'PI'
-      | 'PR'
-      | 'RJ'
-      | 'RN'
-      | 'RO'
-      | 'RR'
-      | 'RS'
-      | 'SC'
-      | 'SE'
-      | 'SP'
-      | 'TO'
+    uf: ufUnion
   }
 
   export class UseCase {

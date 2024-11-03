@@ -1,9 +1,9 @@
 import { CarSchema } from '@/orders/utils/schemas'
 import { Request, Response } from 'express'
 import { z } from 'zod'
-import { OrdersTypeormRepository } from '../../typeorm/entities/repositories/orders-typeorm.repository'
+import { OrdersTypeormRepository } from '../../typeorm/repositories/orders-typeorm.repository'
 import { dataSource } from '@/common/infraestructure/typeorm'
-import { Order } from '../../typeorm/entities/entities/orders.entity'
+import { Order } from '../../typeorm/entities/orders.entity'
 import { CreateOrderUseCase } from '@/orders/application/usecases/create-order.usecase'
 
 export async function createOrderController(
@@ -30,7 +30,7 @@ export async function createOrderController(
   const { car } = request.body
 
   const createOrderUseCase = new CreateOrderUseCase.UseCase(
-    new OrdersTypeormRepository(dataSource.getRepository(Order))
+    new OrdersTypeormRepository(dataSource.getRepository(Order)),
   )
 
   const order = await createOrderUseCase.execute({

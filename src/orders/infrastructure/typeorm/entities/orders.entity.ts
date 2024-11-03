@@ -40,63 +40,27 @@ export class Order implements OrderModel {
     nullable: true,
     type: 'enum',
     enum: [
-      'AC',
       'AL',
-      'AM',
-      'AP',
       'BA',
       'CE',
-      'DF',
-      'ES',
-      'GO',
       'MA',
-      'MG',
-      'MS',
-      'MT',
-      'PA',
       'PB',
       'PE',
       'PI',
-      'PR',
-      'RJ',
       'RN',
-      'RO',
-      'RR',
-      'RS',
-      'SC',
       'SE',
-      'SP',
-      'TO',
     ],
   })
   uf:
-    | 'AC'
-    | 'AL'
-    | 'AM'
-    | 'AP'
+    |'AL'
     | 'BA'
     | 'CE'
-    | 'DF'
-    | 'ES'
-    | 'GO'
     | 'MA'
-    | 'MG'
-    | 'MS'
-    | 'MT'
-    | 'PA'
     | 'PB'
     | 'PE'
     | 'PI'
-    | 'PR'
-    | 'RJ'
     | 'RN'
-    | 'RO'
-    | 'RR'
-    | 'RS'
-    | 'SC'
     | 'SE'
-    | 'SP'
-    | 'TO'
     | null
   // @ManyToOne(() => Client, (client) => client.orders)
   // client: Client
