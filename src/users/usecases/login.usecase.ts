@@ -22,13 +22,10 @@ export class LoginUserUseCase {
     if (!user) {
       throw new Error('Não foi possível fazer login');
     }
-
-
-    // const isPasswordValid = await bcrypt.compare(input.password, user.password);
-    // if (!isPasswordValid) {
-    //   throw new Error('Invalid credentials');
-    // }
-
+    const isPasswordValid = await bcrypt.compare(input.password, user.password);
+    if (!isPasswordValid) {
+      throw new Error('Senha errada');
+    }
     const token = this.generateToken(user.id);
 
     return {
