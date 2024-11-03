@@ -96,6 +96,21 @@ export class UpdateOrderUseCase {
       throw new AppError("Order does not exist", 404)
     }
 
+    if (initialDate && new Date(initialDate) < new Date(Date.now())) {
+      throw new AppError("Initial date can't be less then the current date", 400)
+    }
+
+    if (initialDate && finalDate && new Date(finalDate) < new Date(initialDate)) {
+      throw new AppError("Final date can't be less then the initial date", 400)
+    }
+
+    if (!initialDate) {
+      const initialDate = (await this.orderRepository.findById(id)).initialDate
+      if (finalDate && new Date(finalDate) < new Date(initialDate)) {
+        throw new AppError("Final date can't be less then the initial date", 400)
+      }
+    }
+
     const order = {
       id: orderExists.id,
       cep: !cep ? orderExists.cep : cep,
