@@ -43,6 +43,7 @@ export class CarsTypeormRepository implements CarsRepository {
       status,
     } = params
     const options: FindOptionsWhere<Car> = {}
+
     if (items) {
       const itemsToFind = [...items]
       options.items = { name: In(itemsToFind) }
@@ -80,18 +81,24 @@ export class CarsTypeormRepository implements CarsRepository {
       take,
     })
     if (data.length === 0) throw new AppError("Car don't exist", 404)
+    let filteredCount = 0
+    const ids = data.map((car) => {
+      if (car.items.length === items.length) {
+        filteredCount++
+        return car.id
+      }
+    })
+    const cars = await this.carsRepository.find({
+      where: { id: In(ids) },
+      relations: ['items'],
+      order,
+    })
 
-    // const ids = data.map((car) => car.id)
-    // const cars = await this.carsRepository.find({
-    //   where: { id: In(ids) },
-    //   relations: ['items'],
-    //   order,
-    // })
     return {
       per_page: take,
       page: page ? page : 1,
-      count: count,
-      data,
+      count: filteredCount,
+      data: cars,
     }
   }
 
