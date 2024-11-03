@@ -82,12 +82,18 @@ export class CarsTypeormRepository implements CarsRepository {
     })
     if (data.length === 0) throw new AppError("Car don't exist", 404)
     let filteredCount = 0
+
     const ids = data.map((car) => {
-      if (car.items.length === items.length) {
-        filteredCount++
-        return car.id
+      if (items) {
+        if (car.items.length === items.length) {
+          filteredCount++
+          return car.id
+        }
       }
+      filteredCount++
+      return car.id
     })
+    console.log(ids)
     const cars = await this.carsRepository.find({
       where: { id: In(ids) },
       relations: ['items'],
