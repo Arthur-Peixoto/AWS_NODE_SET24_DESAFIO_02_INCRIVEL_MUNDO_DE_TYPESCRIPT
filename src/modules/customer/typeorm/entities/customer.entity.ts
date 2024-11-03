@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('customers')
-export class Customers {
+export class Customer {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -11,11 +11,15 @@ export class Customers {
   @Column('varchar', { unique: true })
   email: string
 
-  @Column()
-  dateBirth:Date
+  @Column('varchar', { length: 11 })
+  phone: string
 
-  @Column('number', { unique: true })
-  cpf: number
+  @Column()
+  dateBirth: Date
+
+  @Column('varchar', { unique: true })
+  cpf: string
+
 
   @CreateDateColumn()
   registrationDate: Date
@@ -25,4 +29,4 @@ export class Customers {
 
 }
 
-export default Customers
+export default Customer

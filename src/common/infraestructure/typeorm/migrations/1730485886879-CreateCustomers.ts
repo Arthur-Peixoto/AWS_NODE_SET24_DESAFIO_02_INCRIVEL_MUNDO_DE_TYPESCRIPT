@@ -35,17 +35,18 @@ export class CreateCustomers1730485886879 implements MigrationInterface {
                   name: 'cpf',
                   type: 'varchar',
                   isNullable: false,
+                  isUnique: true
                 },
                 {
                   name: 'phone',
                   type: 'varchar',
-                  isNullable: true,
+                  isNullable: false,
                 },
                 {
                   name: 'initial_date',
                   type: 'timestamp',
                   default: null,
-                  isNullable: true,
+                  isNullable: false,
                 },
                 {
                   name: 'deleted_at',
