@@ -1,6 +1,6 @@
 import { UserRepository } from '../domain/repositories/users.repository'; 
 import { UserModel } from '../domain/models/users.model';
-import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 export type CreateUserInput = {
   fullName: string;
@@ -20,9 +20,12 @@ export class CreateUserUseCase {
   ) {}
 
   async execute(input: CreateUserInput): Promise<CreateUserOutput> {
-    const user: UserModel = this.userRepository.create(input);
+    const hashedPassword = await bcrypt.hash(input.password, 10);
+    const user: UserModel = this.userRepository.create({
+      ...input,
+      password: hashedPassword,
+    });
     await this.userRepository.insert(user);
-
 
     return {
       id: user.id,
@@ -30,9 +33,4 @@ export class CreateUserUseCase {
       email: user.email,
     };
   }
-
-  // private generateToken(userId: string): string {
-  //   const secret = process.env.JWT_SECRET || 'default_secret';
-  //   return jwt.sign({ id: userId }, secret, { expiresIn: '10m' });
-  // }
 }
