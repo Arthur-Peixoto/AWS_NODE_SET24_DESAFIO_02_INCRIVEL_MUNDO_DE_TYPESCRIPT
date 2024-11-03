@@ -1,12 +1,10 @@
-// src/users/infraestructure/http/controllers/update-user.controller.ts
-
-import { Request, Response } from 'express';
+import { NextFunction,Request, Response } from 'express';
 import { UpdateUserUseCase } from '@/users/usecases/update-user.usecase';
 import { UsersTypeormRepository } from '../../typeorm/repositories/users-typeorm.repository';
 import { dataSource } from '@/common/infraestructure/typeorm';
 import { User } from '../../typeorm/entities/users.entity';
 
-export async function updateUserController(req: Request, res: Response) {
+export async function updateUserController(req: Request, res: Response, next: NextFunction) {
   const { id } = req.params;
   const { fullName, email, password } = req.body;
 
@@ -24,6 +22,6 @@ export async function updateUserController(req: Request, res: Response) {
 
     return res.status(200).json(updatedUser);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    next(error);
   }
 }

@@ -15,6 +15,7 @@ export type CreateCarProps = {
 }
 
 export type findParams = {
+  orderBy?: string[]
   page?: number
   per_page?: number
   model?: string

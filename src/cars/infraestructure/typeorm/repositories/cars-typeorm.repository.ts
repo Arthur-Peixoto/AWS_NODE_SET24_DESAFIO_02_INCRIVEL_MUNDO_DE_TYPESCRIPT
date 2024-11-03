@@ -7,6 +7,7 @@ import {
 } from '@/cars/domain/repositories/cars.repository'
 import {
   Between,
+  FindOptionsOrder,
   FindOptionsWhere,
   In,
   LessThanOrEqual,
@@ -27,6 +28,7 @@ export class CarsTypeormRepository implements CarsRepository {
 
   async findAllAndFilter(params: findParams): Promise<findResults> {
     const {
+      orderBy,
       page,
       per_page,
       model,
@@ -41,6 +43,7 @@ export class CarsTypeormRepository implements CarsRepository {
       status,
     } = params
     const options: FindOptionsWhere<Car> = {}
+
     if (items) {
       const itemsToFind = [...items]
       options.items = { name: In(itemsToFind) }
@@ -65,24 +68,42 @@ export class CarsTypeormRepository implements CarsRepository {
     let skip: number = 0
     take = per_page ? per_page : 10
     skip = page ? (page - 1) * take : 0
-
+    const order: FindOptionsOrder<Car> = {}
+    if (orderBy)
+      orderBy.forEach((criteria) => {
+        order[`${criteria}`] = 'ASC'
+      })
     const [data, count] = await this.carsRepository.findAndCount({
+      order,
       where: { ...options },
       relations: ['items'],
       skip,
       take,
     })
     if (data.length === 0) throw new AppError("Car don't exist", 404)
+    let filteredCount = 0
 
-    const ids = data.map((car) => car.id)
+    const ids = data.map((car) => {
+      if (items) {
+        if (car.items.length === items.length) {
+          filteredCount++
+          return car.id
+        }
+      }
+      filteredCount++
+      return car.id
+    })
+    console.log(ids)
     const cars = await this.carsRepository.find({
       where: { id: In(ids) },
       relations: ['items'],
+      order,
     })
+
     return {
       per_page: take,
       page: page ? page : 1,
-      count: count,
+      count: filteredCount,
       data: cars,
     }
   }

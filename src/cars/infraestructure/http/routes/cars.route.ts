@@ -6,7 +6,7 @@ import { deleteCarController } from '../controllers/delete-car.controller'
 import { readCarsController } from '../controllers/read-cars.controller'
 import { celebrate, Joi, Segments } from 'celebrate'
 
-const CURRENT_YEAR = new Date().getFullYear()
+const CURRENT_YEAR = new Date().getFullYear() + 1
 const carRoutes = Router()
 
 carRoutes.post(
@@ -24,7 +24,7 @@ carRoutes.post(
         .length(8)
         .pattern(/^[A-Za-z]{3}-[0-9]{4}$/)
         .required(),
-      mileage: Joi.number().positive().required(),
+      mileage: Joi.number().min(0).required(),
       items: Joi.array().items(Joi.string()).max(5).unique().required(),
       price: Joi.number().positive().precision(2).required(),
       status: Joi.string().valid('ativo', 'inativo').required(),
@@ -61,12 +61,18 @@ carRoutes.get(
           then: Joi.number().greater(Joi.ref('minPrice')),
         }),
       items: Joi.array().items(Joi.string()).max(5).unique().optional(),
-      mileage: Joi.number().positive().optional(),
+      mileage: Joi.number().min(0).optional(),
       licensePlateFinalDigits: Joi.string()
         .length(4)
         .pattern(/^[0-9]{4}$/)
         .optional(),
       status: Joi.string().valid('ativo', 'inativo').optional(),
+      orderBy: Joi.array()
+        .items(Joi.string().valid('mileage', 'year', 'price'))
+        .max(3)
+        .min(1)
+        .unique()
+        .optional(),
     },
   }),
   (req, res, next) => {
@@ -98,7 +104,7 @@ carRoutes.patch(
         .length(8)
         .pattern(/^[A-Za-z]{3}-[0-9]{4}$/)
         .optional(),
-      mileage: Joi.number().positive().optional(),
+      mileage: Joi.number().min(0).optional(),
       items: Joi.array().items(Joi.string()).max(5).unique().optional(),
       price: Joi.number().positive().precision(2).optional(),
       status: Joi.string().valid('ativo', 'inativo').optional(),
