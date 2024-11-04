@@ -43,6 +43,8 @@ export namespace CreateOrderUseCase {
         
       const existingOrder = await this.orderRepository.findWithCustomer(input.customer.id)
       if (existingOrder) throw new AppError('Order already exists', 400)
+      
+      const status: 'Aberto' | 'Aprovado' | 'Cancelado' = 'Aberto'
 
       const order = {
         ...input,
@@ -54,7 +56,8 @@ export namespace CreateOrderUseCase {
         },
         customer: {
           ...input.customer
-        }
+        },
+        status: status
       }
 
       const orderInst = this.orderRepository.create(order)
