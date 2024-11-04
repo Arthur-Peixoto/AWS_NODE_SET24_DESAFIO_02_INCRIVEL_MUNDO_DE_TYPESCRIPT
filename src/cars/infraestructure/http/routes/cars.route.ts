@@ -5,9 +5,12 @@ import { updateCarController } from '../controllers/update-car.controller'
 import { deleteCarController } from '../controllers/delete-car.controller'
 import { readCarsController } from '../controllers/read-cars.controller'
 import { celebrate, Joi, Segments } from 'celebrate'
+import isAuthenticated from '@/common/domain/errors/is-authenticated'
 
 const CURRENT_YEAR = new Date().getFullYear() + 1
 const carRoutes = Router()
+
+carRoutes.use(isAuthenticated)
 
 carRoutes.post(
   '/',
