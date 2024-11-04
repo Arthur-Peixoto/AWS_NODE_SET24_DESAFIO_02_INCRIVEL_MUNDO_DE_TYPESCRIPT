@@ -5,7 +5,7 @@ import { readOrdersController } from '../controllers/read-orders.controller'
 import { celebrate, Joi, Segments } from 'celebrate'
 import { deleteOrderController } from '../controllers/delete-order.controller'
 import { updateOrderController } from '../controllers/update-order.controller'
-import { CarSchemaJoi } from '@/orders/utils/schemas'
+import { CarSchemaJoi, CustomerSchemaJoi } from '@/orders/utils/schemas'
 
 const orderRoutes = Router()
 
@@ -14,11 +14,11 @@ orderRoutes.post(
   celebrate({
     [Segments.BODY]: {
       car: CarSchemaJoi,
-      // client: ClientSchemaJoi
+      customer: CustomerSchemaJoi
     },
   }),
-  (req, res) => {
-    createOrderController(req, res)
+  (req, res, next) => {
+    createOrderController(req, res, next)
   },
 )
 

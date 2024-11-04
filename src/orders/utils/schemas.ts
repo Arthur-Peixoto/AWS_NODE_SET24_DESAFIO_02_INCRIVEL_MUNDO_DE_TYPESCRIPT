@@ -21,7 +21,7 @@ export const CarSchemaZod = z.object({
 })
 
 export const CarSchemaJoi = Joi.object({
-  id: Joi.string().required(),
+  id: Joi.string().uuid().required(),
   licensePlate: Joi.string().required(),
   brand: Joi.string().required(),
   model: Joi.string().required(),
@@ -31,6 +31,17 @@ export const CarSchemaJoi = Joi.object({
   price: Joi.number().required(),
   registrationDate: Joi.string().required(),
   status: Joi.valid('ativo', 'inativo', 'excluído').required(),
+})
+
+export const CustomerSchemaJoi = Joi.object ({
+  id: Joi.string().uuid().required(),
+  fullName: Joi.string().required(),
+  dateBirth: Joi.date().required(),
+  email: Joi.string().required(),
+  cpf: Joi.string().required(),
+  phone: Joi.string().required(),
+  registrationDate: Joi.date().required(),
+  deletionDate: Joi.date().optional(),
 })
 
 export type carModelInput = {

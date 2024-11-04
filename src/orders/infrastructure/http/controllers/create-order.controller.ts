@@ -1,42 +1,33 @@
-import { CarSchemaZod } from '@/orders/utils/schemas'
-import { Request, Response } from 'express'
-import { z } from 'zod'
+import { NextFunction, Request, Response } from 'express'
 import { OrdersTypeormRepository } from '../../typeorm/repositories/orders-typeorm.repository'
 import { dataSource } from '@/common/infraestructure/typeorm'
 import { Order } from '../../typeorm/entities/orders.entity'
 import { CreateOrderUseCase } from '@/orders/application/usecases/create-order.usecase'
+import { CustomersTypeormRepository } from '@/modules/customer/typeorm/repositories/customers.typeorm.repository'
+import Customer from '@/modules/customer/typeorm/entities/customer.entity'
+
 
 export async function createOrderController(
   request: Request,
   response: Response,
+  next: NextFunction
 ) {
-  const createOrderBodySchema = z.object({
-    car: CarSchemaZod,
-    // client: ClientSchema
-  })
-
-  const validatedData = createOrderBodySchema.safeParse(request.body)
-
-  if (validatedData.success === false) {
-    console.error('Invalid data', validatedData.error.format())
-    // TODO: AppError
-    throw new Error(
-      `${validatedData.error.errors.map((err) => {
-        return `${err.path} => ${err.message}`
-      })}`,
-    )
-  }
-
-  const { car } = request.body
+  try {
+    const { car, customer } = request.body
 
   const createOrderUseCase = new CreateOrderUseCase.UseCase(
     new OrdersTypeormRepository(dataSource.getRepository(Order)),
+    new CustomersTypeormRepository(dataSource.getRepository(Customer))
   )
 
   const order = await createOrderUseCase.execute({
     car,
-    //client,
+    customer,
   })
 
   return response.status(201).json(order)
+  } catch (err) {
+    next(err)
+  }
+  
 }

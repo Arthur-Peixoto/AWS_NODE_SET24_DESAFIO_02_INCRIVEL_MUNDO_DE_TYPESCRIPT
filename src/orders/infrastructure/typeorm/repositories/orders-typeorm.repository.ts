@@ -33,7 +33,7 @@ export class OrdersTypeormRepository implements OrdersRepository {
       initialDate,
       finalDate,
       cancelDate,
-      // clientCpf,
+      customerCpf,
       status,
       uf,
     } = params
@@ -44,7 +44,7 @@ export class OrdersTypeormRepository implements OrdersRepository {
     if (total) options.total = total
     if (cancelDate) options.cancelDate = cancelDate
     if (uf) options.uf = uf
-    // if (clientCpf) options.clientCpf = clientCpf
+    if (customerCpf) options.costumer = {}
 
     if (finalDate && initialDate) {
       options.initialDate = Between(initialDate, finalDate)
@@ -71,7 +71,7 @@ export class OrdersTypeormRepository implements OrdersRepository {
 
     const [data, count] = await this.ordersRepository.findAndCount({
       where: { ...options },
-      // relations
+      relations: ['car', 'customer'],
       skip,
       take,
     })
@@ -115,13 +115,19 @@ export class OrdersTypeormRepository implements OrdersRepository {
       where: { id: id },
       // relations: { client: true },
     })
-
     // EntityNotFoundError
     if (!order) {
       throw new Error(`Order not found using id ${id}`)
     }
 
     return order
+  }
+
+  async findWithCustomer(id: string): Promise<OrderModel> {
+    return await this.ordersRepository.findOne({
+      where: { customer: { id: id } },
+      relations: ['customer'],
+    })
   }
 
   async update(model: OrderModel): Promise<OrderModel> {

@@ -1,5 +1,7 @@
 import { ItemModel } from '@/cars/domain/models/items.model'
 import { AppError } from '@/common/domain/errors/app-error'
+import { CustomerModel } from '@/modules/customer/domain/models/cutomer.model'
+import { CustomerRepository } from '@/modules/customer/domain/repositories/customer.repository'
 import { OrdersRepository } from '@/orders/domain/repositories/orders.repository'
 import { carModelInput } from '@/orders/utils/schemas'
 import { ufUnion } from '@/orders/utils/ufUnion'
@@ -8,7 +10,7 @@ import { ufUnion } from '@/orders/utils/ufUnion'
 export namespace CreateOrderUseCase {
   export type Input = {
     car: carModelInput
-    // client: ClientModel
+    customer: CustomerModel
   }
 
   export type Output = {
@@ -19,25 +21,28 @@ export namespace CreateOrderUseCase {
     initialDate: Date
     finalDate: Date
     cancelDate: Date
-    // client: ClientModel
+    customerCpf: string
     carId: string
     status: 'Aberto' | 'Aprovado' | 'Cancelado'
     uf: ufUnion
   }
 
   export class UseCase {
-    constructor(private orderRepository: OrdersRepository) {}
+    constructor(private orderRepository: OrdersRepository, private customerRepository: CustomerRepository) {}
 
     async execute(input: Input): Promise<Output> {
       if (
         !input.car
-        // || !input.client
+        || !input.customer
       ) {
         throw new AppError('Input data not provided or invalid', 400)
       }
 
-      // TODO: check if client exists
-      // TODO: check if client already has order
+      const customerExists = await this.customerRepository.findByID(input.customer.id)
+      if (!customerExists) throw new AppError('Customer does not exist', 400)
+        
+      const existingOrder = await this.orderRepository.findWithCustomer(input.customer.id)
+      if (existingOrder) throw new AppError('Order already exists', 400)
 
       const order = {
         ...input,
@@ -47,6 +52,9 @@ export namespace CreateOrderUseCase {
             return { name: item }
           }) as ItemModel[],
         },
+        customer: {
+          ...input.customer
+        }
       }
 
       const orderInst = this.orderRepository.create(order)
@@ -60,7 +68,7 @@ export namespace CreateOrderUseCase {
         initialDate: orderInst.initialDate,
         finalDate: orderInst.finalDate,
         cancelDate: orderInst.cancelDate,
-        // client: orderInst.client,
+        customerCpf: order.customer.cpf,
         carId: order.car.id,
         status: orderInst.status,
         uf: orderInst.uf,
