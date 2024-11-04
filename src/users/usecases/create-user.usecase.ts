@@ -1,6 +1,7 @@
 import { UserRepository } from '../domain/repositories/users.repository'; 
 import { UserModel } from '../domain/models/users.model';
 import bcrypt from 'bcrypt';
+import { AppError } from '@/common/domain/errors/app-error';
 
 export type CreateUserInput = {
   fullName: string;
@@ -15,17 +16,28 @@ export type CreateUserOutput = {
 };
 
 export class CreateUserUseCase {
-  constructor(
-    private userRepository: UserRepository,
-  ) {}
+  constructor(private userRepository: UserRepository) {}
 
   async execute(input: CreateUserInput): Promise<CreateUserOutput> {
-    const hashedPassword = await bcrypt.hash(input.password, 10);
+    const existingUser = await this.userRepository.findByEmail(input.email);
+    if (existingUser) {
+      throw new AppError('Email já cadastrado', 409);
+    }
+
+    let hashedPassword;
+    try {
+      hashedPassword = await bcrypt.hash(input.password, 10);
+    } catch (error) {
+      throw new AppError('Erro ao processar a senha', 500);
+    }
     const user: UserModel = this.userRepository.create({
       ...input,
       password: hashedPassword,
     });
-    await this.userRepository.insert(user);
+    const insertedUser = await this.userRepository.insert(user);
+    if (!insertedUser) {
+      throw new AppError('Erro ao inserir usuário', 500);
+    }
 
     return {
       id: user.id,
