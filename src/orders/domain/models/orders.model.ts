@@ -1,3 +1,4 @@
+import { CarModel } from '@/cars/domain/models/cars.model'
 import { carModelInput } from '@/orders/utils/schemas'
 import { ufUnion } from '@/orders/utils/ufUnion'
 
@@ -10,7 +11,7 @@ export interface OrderModel {
   finalDate: Date
   cancelDate: Date
   // clients: ClientModel[]
-  car: carModelInput
+  car: CarModel
   status: 'Aberto' | 'Aprovado' | 'Cancelado'
   uf: ufUnion
 }
