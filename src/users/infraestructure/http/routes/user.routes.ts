@@ -23,8 +23,8 @@ userRoutes.put('/users/:id', (req, res, next) => {
   updateUserController(req, res, next);
 });
 
-userRoutes.delete('/users/:id', (req, res) => {
-  deleteUserController(req, res);
+userRoutes.delete('/users/:id', (req, res, next) => {
+  deleteUserController(req, res, next);
 });
 
 userRoutes.post('/signup', (req, res) => {
