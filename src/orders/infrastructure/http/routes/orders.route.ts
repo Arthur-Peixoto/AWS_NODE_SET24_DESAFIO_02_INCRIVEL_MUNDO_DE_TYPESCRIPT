@@ -6,8 +6,11 @@ import { celebrate, Joi, Segments } from 'celebrate'
 import { deleteOrderController } from '../controllers/delete-order.controller'
 import { updateOrderController } from '../controllers/update-order.controller'
 import { CarSchemaJoi, CustomerSchemaJoi } from '@/orders/utils/schemas'
+import isAuthenticated from '@/common/domain/errors/is-authenticated'
 
 const orderRoutes = Router()
+
+orderRoutes.use(isAuthenticated)
 
 orderRoutes.post(
   '/',
