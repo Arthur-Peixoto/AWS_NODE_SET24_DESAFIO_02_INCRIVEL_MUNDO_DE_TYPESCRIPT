@@ -1,4 +1,3 @@
-import { timeStamp } from 'console'
 import { MigrationInterface, QueryRunner, Table } from 'typeorm'
 
 export class CreateCustomers1730485886879 implements MigrationInterface {
@@ -14,12 +13,12 @@ export class CreateCustomers1730485886879 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'full_name',
+            name: 'fullName',
             type: 'varchar',
             isNullable: false,
           },
           {
-            name: 'date_birth',
+            name: 'dateBirth',
             type: 'timestamp',
             isNullable: false,
           },
