@@ -1,4 +1,5 @@
 import { Car } from '@/cars/infraestructure/typeorm/entities/cars.entity'
+import { Customer } from '@/modules/customer/typeorm/entities/customer.entity'
 import { OrderModel } from '@/orders/domain/models/orders.model'
 import {
   Column,
@@ -21,7 +22,7 @@ export class Order implements OrderModel {
   @Column({ nullable: true })
   city: string | null
 
-  @Column({type: 'decimal', default: 0})
+  @Column({ type: 'decimal', default: 0 })
   total: number
 
   @Column({ nullable: true })
@@ -33,37 +34,24 @@ export class Order implements OrderModel {
   @Column({ nullable: true })
   cancelDate: Date | null
 
-  @Column({ type: 'enum', enum: ['Aberto', 'Aprovado', 'Cancelado'], nullable: true })
+  @Column({
+    type: 'enum',
+    enum: ['Aberto', 'Aprovado', 'Cancelado'],
+    nullable: true,
+  })
   status: 'Aberto' | 'Aprovado' | 'Cancelado' | null
 
   @Column({
     nullable: true,
     type: 'enum',
-    enum: [
-      'AL',
-      'BA',
-      'CE',
-      'MA',
-      'PB',
-      'PE',
-      'PI',
-      'RN',
-      'SE',
-    ],
+    enum: ['AL', 'BA', 'CE', 'MA', 'PB', 'PE', 'PI', 'RN', 'SE'],
   })
-  uf:
-    |'AL'
-    | 'BA'
-    | 'CE'
-    | 'MA'
-    | 'PB'
-    | 'PE'
-    | 'PI'
-    | 'RN'
-    | 'SE'
-    | null
-  // @ManyToOne(() => Client, (client) => client.orders)
-  // client: Client
+  uf: 'AL' | 'BA' | 'CE' | 'MA' | 'PB' | 'PE' | 'PI' | 'RN' | 'SE' | null
+
+  @OneToOne(() => Customer)
+  @JoinColumn()
+  customer: Customer
+
   @OneToOne(() => Car)
   @JoinColumn()
   car: Car
