@@ -7,8 +7,8 @@ import { deleteUserController } from '../controllers/delete-user.controller'
 import { loginUserController } from '../controllers/login.controller'
 const userRoutes = Router()
 
-userRoutes.post('/users/', (req, res) => {
-  createUserController(req, res)
+userRoutes.post('/users/', (req, res, next) => {
+  createUserController(req, res, next)
 })
 
 userRoutes.get('/users/', (req, res) => {
