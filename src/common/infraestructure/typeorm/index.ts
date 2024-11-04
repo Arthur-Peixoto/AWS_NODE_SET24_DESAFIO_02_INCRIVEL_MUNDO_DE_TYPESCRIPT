@@ -10,6 +10,7 @@ import { CreateUsers1730228906206 } from './migrations/1730250492317-CreateUsers
 import { CreateTokens1730228906207 } from './migrations/1730251259678-CreateTokens'
 import { CreateCustomers1730485886879 } from './migrations/1730485886879-CreateCustomers'
 import { ChangeTypeOfPrice1730489667223 } from './migrations/1730489667223-changeTypeOfPrice'
+import { User } from '@/users/infraestructure/typeorm/entities/users.entity'
 
 export const dataSource = new DataSource({
   type: 'postgres',
@@ -28,5 +29,5 @@ export const dataSource = new DataSource({
     ChangeTypeOfPrice1730489667223,
   ],
   synchronize: true,
-  entities: [Car, Item, Order, Customer],
+  entities: [Car, Item, Order, Customer, User],
 })
