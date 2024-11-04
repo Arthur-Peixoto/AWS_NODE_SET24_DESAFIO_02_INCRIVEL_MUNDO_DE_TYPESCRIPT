@@ -1,6 +1,6 @@
 import { ItemModel } from '@/cars/domain/models/items.model'
 import { AppError } from '@/common/domain/errors/app-error'
-import { CustomerModel } from '@/modules/customer/domain/models/cutomer.model'
+import { CustomerModel } from '@/modules/customer/domain/models/customer.model'
 import { CustomerRepository } from '@/modules/customer/domain/repositories/customer.repository'
 import { OrdersRepository } from '@/orders/domain/repositories/orders.repository'
 import { carModelInput } from '@/orders/utils/schemas'
