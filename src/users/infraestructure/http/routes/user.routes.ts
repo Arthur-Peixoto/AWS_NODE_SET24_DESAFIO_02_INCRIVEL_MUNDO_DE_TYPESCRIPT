@@ -15,8 +15,8 @@ userRoutes.get('/users/', (req, res, next) => {
   listUsersController(req, res, next);
 });
 
-userRoutes.get('/users/:id', (req, res) => {
-  getUserByIdController(req, res);
+userRoutes.get('/users/:id', (req, res, next) => {
+  getUserByIdController(req, res, next);
 });
 
 userRoutes.put('/users/:id', (req, res, next) => {
