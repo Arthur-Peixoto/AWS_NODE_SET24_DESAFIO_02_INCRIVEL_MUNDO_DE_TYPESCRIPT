@@ -2,7 +2,7 @@ import { CustomerModel } from "../domain/models/customer.model";
 import { CustomerRepository } from "../domain/repositories/customer.repository";
 import { AppError } from '@/common/domain/errors/app-error';
 
-export class DeleteUserCustomerCase {
+export class DeleteCustomerUseCase {
   constructor(private customerRepository: CustomerRepository) {}
 
   async execute(id: string): Promise<CustomerModel> {
