@@ -1,5 +1,5 @@
 import { Car } from '@/cars/infraestructure/typeorm/entities/cars.entity'
-import { Customer } from '@/modules/customer/typeorm/entities/customer.entity'
+import Customer from '@/modules/customer/infraestructure/typeorm/entities/customer.entity'
 import { OrderModel } from '@/orders/domain/models/orders.model'
 import {
   Column,

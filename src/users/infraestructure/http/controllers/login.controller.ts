@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { LoginUserUseCase } from '@/users/usecases/login.usecase';
 import { UsersTypeormRepository } from '../../typeorm/repositories/users-typeorm.repository';
 import { dataSource } from '@/common/infraestructure/typeorm';
 import { User } from '../../typeorm/entities/users.entity';
 
-export async function loginUserController(req: Request, res: Response) {
+export async function loginUserController(req: Request, res: Response, next: NextFunction) {
   const { email, password } = req.body;
 
   const loginUserUseCase = new LoginUserUseCase(
@@ -15,6 +15,6 @@ export async function loginUserController(req: Request, res: Response) {
     const loggedInUser = await loginUserUseCase.execute({ email, password });
     return res.status(200).json(loggedInUser);
   } catch (error) {
-    return res.status(401).json({ error: error.message });
+    next(error);
   }
 }

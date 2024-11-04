@@ -1,4 +1,9 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 
 @Entity('customers')
 export class Customer {
@@ -20,13 +25,11 @@ export class Customer {
   @Column('varchar', { unique: true })
   cpf: string
 
-
   @CreateDateColumn()
   registrationDate: Date
 
   @CreateDateColumn()
   deletionDate: Date | null
-
 }
 
 export default Customer

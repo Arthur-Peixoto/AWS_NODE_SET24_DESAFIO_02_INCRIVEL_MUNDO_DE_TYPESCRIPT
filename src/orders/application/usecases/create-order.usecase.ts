@@ -1,10 +1,8 @@
 import { ItemModel } from '@/cars/domain/models/items.model'
 import { CarsRepository } from '@/cars/domain/repositories/cars.repository'
 import { AppError } from '@/common/domain/errors/app-error'
-// import { CustomerModel } from '@/modules/customer/domain/models/cutomer.model'
 import { CustomerRepository } from '@/modules/customer/domain/repositories/customer.repository'
 import { OrdersRepository } from '@/orders/domain/repositories/orders.repository'
-// import { carModelInput } from '@/orders/utils/schemas'
 import { ufUnion } from '@/orders/utils/ufUnion'
 
 /* eslint-disable @typescript-eslint/no-namespace */
