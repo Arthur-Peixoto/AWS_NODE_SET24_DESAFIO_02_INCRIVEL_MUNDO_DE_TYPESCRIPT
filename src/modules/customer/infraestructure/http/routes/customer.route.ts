@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { createCustomerController } from '../controllers/create-customer.controller'
 import { celebrate, Joi, Segments } from 'celebrate'
+import { readCustomerController } from '../controllers/read-costumer.controller'
 
 const customerRouter = Router()
 
@@ -19,5 +20,9 @@ customerRouter.post(
     createCustomerController(req, res, next)
   },
 )
+
+customerRouter.get('/:id', (req, res, next) => {
+  readCustomerController(req, res, next)
+})
 
 export default customerRouter
