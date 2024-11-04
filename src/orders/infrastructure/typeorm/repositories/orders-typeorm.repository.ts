@@ -11,9 +11,7 @@ import {
   Between,
   FindOptionsWhere,
   In,
-  LessThan,
   LessThanOrEqual,
-  MoreThan,
   MoreThanOrEqual,
   Repository,
 } from 'typeorm'
@@ -33,7 +31,6 @@ export class OrdersTypeormRepository implements OrdersRepository {
       initialDate,
       finalDate,
       cancelDate,
-      customerCpf,
       status,
       uf,
     } = params
@@ -78,7 +75,7 @@ export class OrdersTypeormRepository implements OrdersRepository {
     const ids = data.map((order) => order.id)
     const orders = await this.ordersRepository.find({
       where: { id: In(ids) },
-      relations: ['car'],
+      relations: ['car', 'customer'],
     })
 
     return {
