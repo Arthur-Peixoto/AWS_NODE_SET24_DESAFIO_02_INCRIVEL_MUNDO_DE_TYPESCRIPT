@@ -11,6 +11,9 @@ import {
 
 export class CustomersTypeormRepository implements CustomerRepository {
   constructor(private readonly customerRepository: Repository<Customer>) {}
+  findByEmailOrCPF(email: string, cpf: string): Promise<CustomerModel | null> {
+    throw new Error('Method not implemented.')
+  }
   findById(id: string): Promise<CustomerModel> {
     return this.customerRepository.findOne({ where: { id } })
   }
@@ -37,13 +40,6 @@ export class CustomersTypeormRepository implements CustomerRepository {
 
   async findByEmail(email: string): Promise<CustomerModel | null> {
     return await this.customerRepository.findOne({ where: { email } })
-  }
-
-  async findByEmailOrCPF(
-    email: string,
-    cpf: string,
-  ): Promise<CustomerModel | null> {
-    return await this.customerRepository.findOne({ where: { email, cpf } })
   }
 
   async findByCPF(cpf: string): Promise<CustomerModel | null> {
