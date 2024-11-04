@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { createCustomerController } from '../controllers/create-customer.controller'
 import { celebrate, Joi, Segments } from 'celebrate'
+import { readCustomerController } from '../controllers/read-costumer.controller'
 
 const customerRouter = Router()
 
@@ -17,6 +18,14 @@ customerRouter.post(
   }),
   (req, res, next) => {
     createCustomerController(req, res, next)
+  },
+)
+
+customerRouter.get(
+  '/:id',
+  celebrate({ [Segments.PARAMS]: { id: Joi.string().uuid().required() } }),
+  (req, res, next) => {
+    readCustomerController(req, res, next)
   },
 )
 
