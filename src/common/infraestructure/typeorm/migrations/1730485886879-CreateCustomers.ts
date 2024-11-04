@@ -41,9 +41,9 @@ export class CreateCustomers1730485886879 implements MigrationInterface {
             isNullable: false,
           },
           {
-            name: 'initial_date',
+            name: 'registrationDate',
             type: 'timestamp',
-            default: null,
+            default: 'now()',
             isNullable: false,
           },
           {
