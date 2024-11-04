@@ -16,6 +16,7 @@ Abra a pasta do projeto e configure suas variáveis de ambiente no modelo do arq
 Após garantir que suas variáveis estão corretas e estar com o banco de dados rodando, entre no seu terminal:
 
 ```
+npm install
 npm run dev
 ```
 
