@@ -5,30 +5,32 @@ import { getUserByIdController } from '../controllers/read-single-user.controlle
 import { updateUserController } from '../controllers/update-user.controller'
 import { deleteUserController } from '../controllers/delete-user.controller'
 import { loginUserController } from '../controllers/login.controller'
+import isAuthenticated from '@/common/domain/errors/is-authenticated'
 const userRoutes = Router()
 
-userRoutes.post('/users/', (req, res) => {
-  createUserController(req, res)
+
+userRoutes.post('/users/', isAuthenticated,(req, res, next) => {
+  createUserController(req, res, next)
 })
 
-userRoutes.get('/users/', (req, res) => {
-  listUsersController(req, res);
+userRoutes.get('/users/', isAuthenticated,(req, res, next) => {
+  listUsersController(req, res, next);
 });
 
-userRoutes.get('/users/:id', (req, res) => {
-  getUserByIdController(req, res);
+userRoutes.get('/users/:id', isAuthenticated,(req, res, next) => {
+  getUserByIdController(req, res, next);
 });
 
-userRoutes.put('/users/:id', (req, res, next) => {
+userRoutes.put('/users/:id', isAuthenticated,(req, res, next) => {
   updateUserController(req, res, next);
 });
 
-userRoutes.delete('/users/:id', (req, res, next) => {
+userRoutes.delete('/users/:id', isAuthenticated,(req, res, next) => {
   deleteUserController(req, res, next);
 });
 
-userRoutes.post('/signup', (req, res) => {
-  loginUserController(req, res);
+userRoutes.post('/signup', (req, res, next) => {
+  loginUserController(req, res, next);
 });
 
 export { userRoutes }

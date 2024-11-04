@@ -6,15 +6,18 @@ import { celebrate, Joi, Segments } from 'celebrate'
 import { deleteOrderController } from '../controllers/delete-order.controller'
 import { updateOrderController } from '../controllers/update-order.controller'
 import { CarSchemaJoi, CustomerSchemaJoi } from '@/orders/utils/schemas'
+import isAuthenticated from '@/common/domain/errors/is-authenticated'
 
 const orderRoutes = Router()
+
+orderRoutes.use(isAuthenticated)
 
 orderRoutes.post(
   '/',
   celebrate({
     [Segments.BODY]: {
-      car: CarSchemaJoi,
-      customer: CustomerSchemaJoi
+      carId: Joi.string().uuid().required(),
+      customerId: Joi.string().uuid().required()
     },
   }),
   (req, res, next) => {
@@ -33,7 +36,7 @@ orderRoutes.get(
         .length(8)
         .optional(),
       total: Joi.number().optional(),
-      initialDate: Joi.date().min('now').optional(),
+      initialDate: Joi.date().optional(),
       finalDate: Joi.date().optional(),
       cancelDate: Joi.date().optional(),
       status: Joi.string().valid('Aberto', 'Aprovado', 'Cancelado').optional(),

@@ -1,12 +1,12 @@
 // src/users/controllers/list-users.controller.ts
 
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { ListUsersUseCase, ListUsersInput } from '@/users/usecases/read-users.usecase';
 import { UsersTypeormRepository } from '@/users/infraestructure/typeorm/repositories/users-typeorm.repository';
 import { dataSource } from '@/common/infraestructure/typeorm';
 import { User } from '@/users/infraestructure/typeorm/entities/users.entity';
 
-export async function listUsersController(req: Request, res: Response) {
+export async function listUsersController(req: Request, res: Response, next: NextFunction) {
   const filters = {
     name: req.query.name?.toString(),
     email: req.query.email?.toString(),
@@ -33,6 +33,6 @@ export async function listUsersController(req: Request, res: Response) {
     const result = await listUsersUseCase.execute({ filters, orderBy, pagination } as ListUsersInput);
     return res.status(200).json(result);
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    next(error);
   }
 }

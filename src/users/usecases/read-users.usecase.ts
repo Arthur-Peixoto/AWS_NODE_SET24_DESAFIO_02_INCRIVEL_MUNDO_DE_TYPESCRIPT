@@ -1,7 +1,6 @@
-// src/users/application/usecases/list-users.usecase.ts
-
 import { UserRepository, UserFilterParams, UserPaginationParams, UserOrderByParams } from '@/users/domain/repositories/users.repository';
 import { UserModel } from '@/users/domain/models/users.model';
+import { AppError } from '@/common/domain/errors/app-error';
 
 export type ListUsersInput = {
   filters?: UserFilterParams;
@@ -21,14 +20,24 @@ export class ListUsersUseCase {
   async execute(input: ListUsersInput): Promise<ListUsersOutput> {
     const { filters, orderBy, pagination } = input;
 
-    const { users, total } = await this.userRepository.findAllWithFilters(
-      filters,
-      orderBy,
-      pagination
-    );
+    // if (pagination && pagination.perPage <= 0) {
+    //   throw new AppError('Número de itens por página deve ser maior que zero', 400);
+    // }
+    // Vou fazer isso com celebrate
+    
+    try {
+      const { users, total } = await this.userRepository.findAllWithFilters(
+        filters,
+        orderBy,
+        pagination
+      );
 
-    const pages = Math.ceil(total / (pagination?.perPage || 10));
+      const perPage = pagination?.perPage || 10;
+      const pages = Math.ceil(total / perPage);
 
-    return { users, total, pages };
+      return { users, total, pages };
+    } catch (error) {
+      throw new AppError('Erro ao listar usuários', 500);
+    }
   }
 }

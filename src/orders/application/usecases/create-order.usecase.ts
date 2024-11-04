@@ -1,16 +1,15 @@
 import { ItemModel } from '@/cars/domain/models/items.model'
+import { CarsRepository } from '@/cars/domain/repositories/cars.repository'
 import { AppError } from '@/common/domain/errors/app-error'
-import { CustomerModel } from '@/modules/customer/domain/models/customer.model'
 import { CustomerRepository } from '@/modules/customer/domain/repositories/customer.repository'
 import { OrdersRepository } from '@/orders/domain/repositories/orders.repository'
-import { carModelInput } from '@/orders/utils/schemas'
 import { ufUnion } from '@/orders/utils/ufUnion'
 
 /* eslint-disable @typescript-eslint/no-namespace */
 export namespace CreateOrderUseCase {
   export type Input = {
-    car: carModelInput
-    customer: CustomerModel
+    carId: string
+    customerId: string
   }
 
   export type Output = {
@@ -28,20 +27,23 @@ export namespace CreateOrderUseCase {
   }
 
   export class UseCase {
-    constructor(private orderRepository: OrdersRepository, private customerRepository: CustomerRepository) {}
+    constructor(private orderRepository: OrdersRepository, private customerRepository: CustomerRepository, private carRepository: CarsRepository) {}
 
     async execute(input: Input): Promise<Output> {
       if (
-        !input.car
-        || !input.customer
+        !input.carId
+        || !input.customerId
       ) {
         throw new AppError('Input data not provided or invalid', 400)
       }
 
-      const customerExists = await this.customerRepository.findByID(input.customer.id)
-      if (!customerExists) throw new AppError('Customer does not exist', 400)
+      const customerExists = await this.customerRepository.findByID(input.customerId)
+      if (!customerExists) throw new AppError('Customer does not exist', 404)
+
+        const carExists = await this.carRepository.findById(input.carId)
+        if (!carExists) throw new AppError('Car does not exist', 404)
         
-      const existingOrder = await this.orderRepository.findWithCustomer(input.customer.id)
+      const existingOrder = await this.orderRepository.findWithCustomer(input.customerId)
       if (existingOrder) throw new AppError('Order already exists', 400)
       
       const status: 'Aberto' | 'Aprovado' | 'Cancelado' = 'Aberto'
@@ -49,14 +51,12 @@ export namespace CreateOrderUseCase {
       const order = {
         ...input,
         car: {
-          ...input.car,
-          items: input.car.items.map((item) => {
-            return { name: item }
+          ...carExists,
+          items: carExists.items.map((item) => {
+            return item
           }) as ItemModel[],
         },
-        customer: {
-          ...input.customer
-        },
+        customer: customerExists,
         status: status
       }
 
