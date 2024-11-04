@@ -5,6 +5,10 @@ export class CreateOrders1730237813958 implements MigrationInterface {
     await queryRunner.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
 
     await queryRunner.query(
+      "CREATE TYPE statusOrder_enum AS ENUM ('Aberto', 'Aprovado', 'Cancelado')",
+    )
+
+    await queryRunner.query(
       "CREATE TYPE uf_enum AS ENUM ('AL', 'BA', 'CE', 'MA', 'PB', 'PE', 'PI', 'RN', 'SE')",
     )
 
@@ -33,7 +37,7 @@ export class CreateOrders1730237813958 implements MigrationInterface {
           },
           {
             name: 'status',
-            type: 'status_enum',
+            type: 'statusOrder_enum',
             default: null,
             isNullable: true,
           },
