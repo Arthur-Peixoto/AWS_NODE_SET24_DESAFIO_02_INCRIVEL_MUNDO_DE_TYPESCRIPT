@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from 'express'
 import { dataSource } from '@/common/infraestructure/typeorm'
 import Customer from '../../typeorm/entities/customer.entity'
 import { CustomersTypeormRepository } from '../../typeorm/repositories/customers.typeorm.repository'
-import { ReadCustomerUseCase } from '@/modules/customer/usecases/read-customer.usecase'
 import { ListCustomersInput, ReadCustomersUseCase } from '@/modules/customer/usecases/read-customers.usecase'
 
 export async function listCustomersController(req: Request, res: Response, next: NextFunction) {
