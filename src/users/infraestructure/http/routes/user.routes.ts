@@ -11,7 +11,7 @@ import isAuthenticated from '@/common/domain/errors/is-authenticated';
 const userRoutes = Router();
 
 userRoutes.post(
-  '/users/',
+  '/',
   isAuthenticated,
   celebrate({
     [Segments.BODY]: {
@@ -29,7 +29,7 @@ userRoutes.post(
 );
 
 userRoutes.get(
-  '/users/',
+  '/',
   isAuthenticated,
   celebrate({
     [Segments.QUERY]: {
@@ -50,7 +50,7 @@ userRoutes.get(
 );
 
 userRoutes.get(
-  '/users/:id',
+  '/:id',
   isAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
@@ -63,7 +63,7 @@ userRoutes.get(
 );
 
 userRoutes.put(
-  '/users/:id',
+  '/:id',
   isAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
@@ -81,7 +81,7 @@ userRoutes.put(
 );
 
 userRoutes.delete(
-  '/users/:id',
+  '/:id',
   isAuthenticated,
   celebrate({
     [Segments.PARAMS]: {
