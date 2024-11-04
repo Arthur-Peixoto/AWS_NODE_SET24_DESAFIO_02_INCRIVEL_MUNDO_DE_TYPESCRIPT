@@ -1,5 +1,10 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
-import { Car } from '@/cars/infraestructure/typeorm/entities/cars.entity'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 
 @Entity('users')
 export class User {
@@ -7,7 +12,7 @@ export class User {
   id: string
 
   @Column('varchar', { length: 100 })
-  fullName: string
+  full_name: string
 
   @Column('varchar', { unique: true })
   email: string
@@ -16,12 +21,12 @@ export class User {
   password: string
 
   @CreateDateColumn()
-  registrationDate: Date
+  created_at: Date
 
   @CreateDateColumn()
-  deletionDate: Date | null
+  deleted_at: Date | null
 
-//   @OneToMany(() => Car, (car) => car.user)
-//   cars: Car[] 
-//isso aqui fica pra depois
+  //   @OneToMany(() => Car, (car) => car.user)
+  //   cars: Car[]
+  //isso aqui fica pra depois
 }

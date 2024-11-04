@@ -30,6 +30,5 @@ export const dataSource = new DataSource({
     ChangeTypeOfPrice1730489667223,
     SeedUsers1730657179163,
   ],
-  synchronize: true,
   entities: [Car, Item, Order, Customer, User],
 })

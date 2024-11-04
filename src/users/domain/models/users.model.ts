@@ -1,9 +1,8 @@
 export interface UserModel {
-    id: string
-    fullName: string
-    email: string
-    password: string
-    registrationDate: Date
-    deletionDate?: Date | null 
-  }
-  
+  id: string
+  full_name: string
+  email: string
+  password: string
+  created_at: Date
+  deleted_at?: Date | null
+}

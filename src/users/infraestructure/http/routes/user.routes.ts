@@ -1,14 +1,14 @@
-import { Router } from 'express';
-import { celebrate, Joi, Segments } from 'celebrate';
-import { createUserController } from '@/users/infraestructure/http/controllers/create-user.controllers';
-import { listUsersController } from '../controllers/read-users.controller';
-import { getUserByIdController } from '../controllers/read-single-user.controller';
-import { updateUserController } from '../controllers/update-user.controller';
-import { deleteUserController } from '../controllers/delete-user.controller';
-import { loginUserController } from '../controllers/login.controller';
-import isAuthenticated from '@/common/domain/errors/is-authenticated';
+import { Router } from 'express'
+import { celebrate, Joi, Segments } from 'celebrate'
+import { createUserController } from '@/users/infraestructure/http/controllers/create-user.controllers'
+import { listUsersController } from '../controllers/read-users.controller'
+import { getUserByIdController } from '../controllers/read-single-user.controller'
+import { updateUserController } from '../controllers/update-user.controller'
+import { deleteUserController } from '../controllers/delete-user.controller'
+import { loginUserController } from '../controllers/login.controller'
+import isAuthenticated from '@/common/domain/errors/is-authenticated'
 
-const userRoutes = Router();
+const userRoutes = Router()
 
 userRoutes.post(
   '/',
@@ -24,9 +24,9 @@ userRoutes.post(
     },
   }),
   (req, res, next) => {
-    createUserController(req, res, next);
-  }
-);
+    createUserController(req, res, next)
+  },
+)
 
 userRoutes.get(
   '/',
@@ -45,9 +45,9 @@ userRoutes.get(
     },
   }),
   (req, res, next) => {
-    listUsersController(req, res, next);
-  }
-);
+    listUsersController(req, res, next)
+  },
+)
 
 userRoutes.get(
   '/:id',
@@ -58,9 +58,9 @@ userRoutes.get(
     },
   }),
   (req, res, next) => {
-    getUserByIdController(req, res, next);
-  }
-);
+    getUserByIdController(req, res, next)
+  },
+)
 
 userRoutes.put(
   '/:id',
@@ -76,9 +76,9 @@ userRoutes.put(
     },
   }),
   (req, res, next) => {
-    updateUserController(req, res, next);
-  }
-);
+    updateUserController(req, res, next)
+  },
+)
 
 userRoutes.delete(
   '/:id',
@@ -89,9 +89,9 @@ userRoutes.delete(
     },
   }),
   (req, res, next) => {
-    deleteUserController(req, res, next);
-  }
-);
+    deleteUserController(req, res, next)
+  },
+)
 
 userRoutes.post(
   '/signup',
@@ -102,8 +102,8 @@ userRoutes.post(
     },
   }),
   (req, res, next) => {
-    loginUserController(req, res, next);
-  }
-);
+    loginUserController(req, res, next)
+  },
+)
 
-export { userRoutes };
+export { userRoutes }
