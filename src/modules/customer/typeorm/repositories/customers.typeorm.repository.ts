@@ -3,7 +3,7 @@
 import { Repository } from 'typeorm';
 import { Customer } from '../entities/customer.entity';
 import { CustomerRepository, CreateCustomerProps, CustomerFilterParams, CustomerPaginationParams, CustomerOrderByParams } from '../../domain/repositories/customer.repository'
-import { CustomerModel } from '../../domain/models/cutomer.model';
+import { CustomerModel } from '../../domain/models/customer.model';
 
 
 export class CustomersTypeormRepository implements CustomerRepository {
@@ -34,6 +34,14 @@ export class CustomersTypeormRepository implements CustomerRepository {
 
   async findByEmail(email: string): Promise<Customer | null> {
     return await this.customerRepository.findOne({ where: { email } });
+  }
+
+  async findByEmailOrCPF(email: string, cpf: string): Promise<Customer | null> {
+    return await this.customerRepository.findOne({ where: { email, cpf } });
+  }
+
+  async findByCPF(cpf: string): Promise<Customer | null> {
+    return await this.customerRepository.findOne({ where: { cpf } });
   }
 
   async findAllWithFilters(

@@ -1,5 +1,5 @@
 import { RepositoryInterface } from '@/common/domain/repositories/repository.interface';
-import { CustomerModel } from './../models/cutomer.model';
+import { CustomerModel } from '../models/customer.model';
 
 export type CreateCustomerProps = {
   id?: string;
@@ -13,9 +13,10 @@ export type CreateCustomerProps = {
 };
 
 export type CustomerFilterParams = {
+  deleted?: any;
   name?: string;
   email?: string;
-  deleted?: boolean;
+  cpf?: string;
 };
 
 export type CustomerPaginationParams = {
@@ -24,7 +25,7 @@ export type CustomerPaginationParams = {
 };
 
 export type CustomerOrderByParams = {
-  field: 'fullName' | 'registrationDate' | 'deletionDate';
+  field: 'fullName' | 'registrationDate' | 'cpf';
   direction: 'ASC' | 'DESC';
 };
 
@@ -32,7 +33,8 @@ export interface CustomerRepository
   extends RepositoryInterface<CustomerModel, CreateCustomerProps> {
   findByID(id: string): Promise<CustomerModel | null>;
   findByEmail(email: string): Promise<CustomerModel | null>;
-  
+  findByCPF(cpf: string): Promise<CustomerModel | null>;
+  findByEmailOrCPF(email: string, cpf: string): Promise<CustomerModel | null>;
   findAllWithFilters(
     filters?: CustomerFilterParams,
     orderBy?: CustomerOrderByParams[],
