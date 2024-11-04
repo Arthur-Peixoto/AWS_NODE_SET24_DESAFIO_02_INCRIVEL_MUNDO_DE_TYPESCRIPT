@@ -1,17 +1,7 @@
 openapi: 3.0.3
 info:
-  title: Swagger Petstore - OpenAPI 3.0
-  description: |-
-    This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about
-    Swagger at [https://swagger.io](https://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!
-    You can now help us improve the API whether it's by making changes to the definition itself or to the code.
-    That way, with time, we can improve the API in general, and expose some of the new features in OAS3.
-
-    _If you're looking for the Swagger 2.0/OAS 2.0 version of Petstore, then click [here](https://editor.swagger.io/?url=https://petstore.swagger.io/v2/swagger.yaml). Alternatively, you can load via the `Edit > Load Petstore OAS 2.0` menu option!_
-    
-    Some useful links:
-    - [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
-    - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
+  title: CompassCar
+  description: Api for car purchase register
   termsOfService: http://swagger.io/terms/
   contact:
     email: apiteam@swagger.io
@@ -29,6 +19,8 @@ tags:
     description: Operations about car
   - name: user
     description: Operations about user
+  - name: order
+    description: Operations about order
 paths:
   /cars:
     post:
@@ -441,6 +433,202 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+  /orders:
+    post:
+      tags:
+        - order
+      summary: Adds a new order to the database
+      description: Adds a new order to the database
+      operationId: createOrder
+      requestBody:
+        description: Create a new order in the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrder'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'          
+        '400':
+          description: Order already exists
+        '404':
+          description: Customer does not exist
+      # security:
+      #   - petstore_auth:
+      #       - write:pets
+      #       - read:pets
+    get:
+      tags:
+        - order
+      summary: Finds all orders using params to filter
+      description: Finds all orders based on the properties provided in the query string, all properties are optional. The answer is a paginated order list
+      parameters:
+        - name: cep
+          in: query
+          description: cep of order to filter
+          required: false
+          schema:
+            type: string
+            example: 12345678
+        - name: city
+          in: query
+          description: city of order to filter
+          required: false
+          schema:
+            type: string
+            example: Mossoró
+        - name: total
+          in: query
+          description: Filter orders with specific total value
+          required: false
+          schema:
+            type: integer
+            example: 100000
+        - name: initialDate
+          in: query
+          description: Filter orders from initial date
+          required: false
+          schema:
+            type: string
+            example: 2024-10-04
+        - name: finalDate
+          in: query
+          description: Filter orders from final date
+          required: false
+          schema:
+            type: string
+            example: 2024-10-05
+        - name: cancelDate
+          in: query
+          description: Filter orders from cancel date
+          required: false
+          schema:
+            type: string
+            example: 2024-10-04
+        - name: status
+          in: query
+          description: Filters orders based on status. Can be "Aberto", "Aprovado" ou "Cancelado"
+          required: false
+          schema:
+            type: string
+            example: Aberto
+        - name: uf
+          in: query
+          description: Filter orders based on uf
+          required: false
+          schema:
+            type: string
+            example: RN
+      operationId: readOrders
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/readOrdersResult'  
+        '204':
+          description: No content
+  /orders/{orderId}:
+    patch:
+      tags:
+        - order
+      summary: Update an existing order
+      description: Update an existing order by Id
+      operationId: updateOrder
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of order to return
+          required: true
+          schema:
+            type: string
+            example: 56b40ff1-bafb-41d6-882c-f45bee53d850
+            format: uuid
+      requestBody:
+        description: Update an existent order in the database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrder'
+        required: false
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Order is cancelled or has a null field or a 'cancelDate' field
+        '404':
+          description: Order does not exist
+      # security:
+      #   - petstore_auth:
+      #       - write:pets
+      #       - read:pets
+    get:
+      tags:
+        - order
+      summary: Find order by ID
+      description: Return a specific order
+      operationId: readOrder
+      parameters:
+        - name: orderId
+          in: path
+          description: ID of order to return
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 56b40ff1-bafb-41d6-882c-f45bee53d850
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'          
+        '400':
+          description: Order does not exist
+      # security:
+      #   - api_key: []
+      #   - petstore_auth:
+      #       - write:pets
+      #       - read:pets
+    delete:
+      tags:
+        - order
+      summary: Delete a order
+      description: Soft delete a order changing the car status to "Cancelado"
+      operationId: deleteOrder
+      parameters:
+        # - name: api_key
+        #   in: header
+        #   description: ''
+        #   required: false
+        #   schema:
+        #     type: string
+        - name: orderId
+          in: path
+          description: Car id to delete
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: 05c3772d-83eb-4a43-a626-901a02efb95
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Order is not open
+        '404':
+          description: Order does not exist
+      # security:
+      #   - petstore_auth:
+      #       - write:pets
+      #       - read:pets
 components:
   schemas:
     User:
@@ -637,7 +825,106 @@ components:
           type: string
       xml:
         name: '##default'
-  
+    CreateOrder:
+      required:
+        - car
+        - customer
+      type: object
+      properties:
+        carId: 
+          type: string
+          format: uuid
+          example: 9c376eed-4311-4e8d-9cb4-d7077a608448
+        customerId:
+          type: string
+          example: 4c59c99f-9db9-4529-a54f-426f171492e2
+    UpdateOrder:
+      type: object
+      
+      properties:
+        cep:
+          type: string
+          example: 12345678
+        total: 
+          type: number
+          example: 1000
+        initialDate:
+          type: string
+          example: 2024-10-10
+        finalDate:
+          type: string
+          example: 2024-11-10
+        cancelDate:
+          type: string
+          example: null
+        status: 
+          type: string
+          example: Aprovado
+              
+              
+    Order:
+      type: object
+      required:
+        - id
+        - cep
+        - city
+        - total
+        - initialDate
+        - finalDate
+        - cancelDate
+        - customerCpf
+        - carId
+        - status
+        - uf
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 56b40ff1-bafb-41d6-882c-f45bee53d850
+        cep:
+          type: string
+          example: null
+        city:
+          type: string
+          example: null
+        total: 
+          type: number
+          example: 0
+        initialDate:
+          type: string
+          example: null
+        finalDate:
+          type: string
+          example: null
+        cancelDate:
+          type: string
+          example: null
+        customerCpf: 
+          type: string
+          example: 12345678910
+        carId:
+          type: string
+          format: uuid
+          example: 9c376eed-4311-4e8d-9cb4-d7077a608448
+        status: 
+          type: string
+          example: Aberto
+        uf: 
+          type: string
+          example: null
+    readOrdersResult:
+      type: object
+      properties:
+        per_page:
+          type: integer
+          example: 1
+        page:
+          type: integer
+          example: 1
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
   requestBodies:
     car:
       description: Car object that needs to be added to the store
