@@ -1,5 +1,5 @@
-import { CarModel } from '@/cars/domain/models/cars.model'
 import { OrdersRepository } from '@/orders/domain/repositories/orders.repository'
+import { carModelInput } from '@/orders/utils/schemas'
 import { ufUnion } from '@/orders/utils/ufUnion'
 
 export type readOutput = {
@@ -11,7 +11,7 @@ export type readOutput = {
   finalDate: Date
   cancelDate: Date
   // clients: ClientModel[]
-  car: CarModel
+  car: carModelInput
   status: 'Aberto' | 'Aprovado' | 'Cancelado'
   uf: ufUnion
 }
@@ -20,8 +20,8 @@ export class ReadOrderUseCase {
   constructor(private orderRepository: OrdersRepository) {}
 
   async execute(id: string): Promise<readOutput> {
-    const order = await this.orderRepository.findById(id)
-
+    const order = await this.orderRepository.findWithRelations(id, 'car')
+    console.log(order)
     return order
   }
 }

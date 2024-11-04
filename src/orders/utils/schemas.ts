@@ -1,3 +1,4 @@
+import Joi from 'joi'
 import { z } from 'zod'
 
 // const ItemSchema = z.object({
@@ -6,7 +7,7 @@ import { z } from 'zod'
 //   car: z.any(),
 // })
 
-export const CarSchema = z.object({
+export const CarSchemaZod = z.object({
   id: z.string(),
   licensePlate: z.string(),
   brand: z.string(),
@@ -18,3 +19,29 @@ export const CarSchema = z.object({
   registrationDate: z.string(),
   status: z.enum(['ativo', 'inativo', 'excluído']),
 })
+
+export const CarSchemaJoi = Joi.object({
+  id: Joi.string().required(),
+  licensePlate: Joi.string().required(),
+  brand: Joi.string().required(),
+  model: Joi.string().required(),
+  mileage: Joi.number().optional(),
+  year: Joi.number().required(),
+  items: Joi.array().items(Joi.string()),
+  price: Joi.number().required(),
+  registrationDate: Joi.string().required(),
+  status: Joi.valid('ativo', 'inativo', 'excluído').required(),
+})
+
+export type carModelInput = {
+  id: string
+  model: string
+  brand: string
+  licensePlate: string
+  mileage?: number
+  year: number
+  items: string[]
+  price: number
+  status: 'ativo' | 'inativo' | 'excluído'
+  registrationDate: Date
+}

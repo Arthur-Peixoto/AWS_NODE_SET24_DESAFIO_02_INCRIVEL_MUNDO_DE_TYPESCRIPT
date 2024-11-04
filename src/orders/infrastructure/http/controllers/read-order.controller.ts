@@ -9,10 +9,11 @@ export async function readOrderController(req: Request, res: Response) {
     const { id } = req.params
 
     const readOrderUseCase = new ReadOrderUseCase(
-      new OrdersTypeormRepository(dataSource.getRepository(Order)),
+      new OrdersTypeormRepository(dataSource.getRepository(Order))
     )
 
     const order = await readOrderUseCase.execute(id)
+    console.log(order)
 
     return res.status(200).json(order)
   }

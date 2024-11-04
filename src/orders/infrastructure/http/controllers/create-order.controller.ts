@@ -1,4 +1,4 @@
-import { CarSchema } from '@/orders/utils/schemas'
+import { CarSchemaZod } from '@/orders/utils/schemas'
 import { Request, Response } from 'express'
 import { z } from 'zod'
 import { OrdersTypeormRepository } from '../../typeorm/repositories/orders-typeorm.repository'
@@ -11,7 +11,7 @@ export async function createOrderController(
   response: Response,
 ) {
   const createOrderBodySchema = z.object({
-    car: CarSchema,
+    car: CarSchemaZod,
     // client: ClientSchema
   })
 

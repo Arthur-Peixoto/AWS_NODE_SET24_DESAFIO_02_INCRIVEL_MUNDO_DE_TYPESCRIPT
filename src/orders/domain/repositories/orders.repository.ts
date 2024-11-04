@@ -30,8 +30,7 @@ export type findParams = {
   cancelDate?: Date | null
   status?: 'Aberto' | 'Aprovado' | 'Cancelado' | null
   uf?: ufUnion | null
-  // client?: CLientModel
-  car?: CarModel
+  clientCpf?: string
 }
 
 export type findResults = {
@@ -44,4 +43,5 @@ export type findResults = {
 export interface OrdersRepository
   extends RepositoryInterface<OrderModel, CreateOrderProps> {
   findAllAndFilter(params: findParams): Promise<findResults>
+  findWithRelations(id: string, ...relations: string[]): Promise<OrderModel>
 }

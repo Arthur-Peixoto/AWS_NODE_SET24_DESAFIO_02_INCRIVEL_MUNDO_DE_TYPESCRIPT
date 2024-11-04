@@ -1,11 +1,13 @@
-import { CarModel } from '@/cars/domain/models/cars.model'
+import { ItemModel } from '@/cars/domain/models/items.model'
+import { AppError } from '@/common/domain/errors/app-error'
 import { OrdersRepository } from '@/orders/domain/repositories/orders.repository'
+import { carModelInput } from '@/orders/utils/schemas'
 import { ufUnion } from '@/orders/utils/ufUnion'
 
 /* eslint-disable @typescript-eslint/no-namespace */
 export namespace CreateOrderUseCase {
   export type Input = {
-    car: CarModel
+    car: carModelInput
     // client: ClientModel
   }
 
@@ -18,7 +20,7 @@ export namespace CreateOrderUseCase {
     finalDate: Date
     cancelDate: Date
     // client: ClientModel
-    car: CarModel
+    carId: string
     status: 'Aberto' | 'Aprovado' | 'Cancelado'
     uf: ufUnion
   }
@@ -31,28 +33,37 @@ export namespace CreateOrderUseCase {
         !input.car
         // || !input.client
       ) {
-        // Error type BadRequestError
-        throw new Error('Input data not provided or invalid')
+        throw new AppError('Input data not provided or invalid', 400)
       }
 
       // TODO: check if client exists
-      // TODO: check if Order already exists
+      // TODO: check if client already has order
 
-      const order = this.orderRepository.create(input)
-      await this.orderRepository.insert(order)
+      const order = {
+        ...input,
+        car: {
+          ...input.car,
+          items: input.car.items.map((item) => {
+            return { name: item }
+          }) as ItemModel[],
+        },
+      }
+
+      const orderInst = this.orderRepository.create(order)
+      await this.orderRepository.insert(orderInst)
 
       return {
-        id: order.id,
-        cep: order.cep,
-        city: order.city,
-        total: order.total,
-        initialDate: order.initialDate,
-        finalDate: order.finalDate,
-        cancelDate: order.cancelDate,
-        // client: order.client,
-        car: order.car,
-        status: order.status,
-        uf: order.uf,
+        id: orderInst.id,
+        cep: orderInst.cep,
+        city: orderInst.city,
+        total: orderInst.total,
+        initialDate: orderInst.initialDate,
+        finalDate: orderInst.finalDate,
+        cancelDate: orderInst.cancelDate,
+        // client: orderInst.client,
+        carId: order.car.id,
+        status: orderInst.status,
+        uf: orderInst.uf,
       }
     }
   }

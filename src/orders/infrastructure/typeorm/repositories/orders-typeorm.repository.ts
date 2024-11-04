@@ -18,6 +18,7 @@ import {
   Repository,
 } from 'typeorm'
 import { Order } from '../entities/orders.entity'
+import { AppError } from '@/common/domain/errors/app-error'
 
 export class OrdersTypeormRepository implements OrdersRepository {
   constructor(private ordersRepository: Repository<Order>) {}
@@ -32,6 +33,7 @@ export class OrdersTypeormRepository implements OrdersRepository {
       initialDate,
       finalDate,
       cancelDate,
+      // clientCpf,
       status,
       uf,
     } = params
@@ -42,6 +44,7 @@ export class OrdersTypeormRepository implements OrdersRepository {
     if (total) options.total = total
     if (cancelDate) options.cancelDate = cancelDate
     if (uf) options.uf = uf
+    // if (clientCpf) options.clientCpf = clientCpf
 
     if (finalDate && initialDate) {
       options.initialDate = Between(initialDate, finalDate)
@@ -73,12 +76,12 @@ export class OrdersTypeormRepository implements OrdersRepository {
       take,
     })
 
-    if (!data) throw new Error('Order not found')
+    if (!data) throw new AppError('Order not found', 404)
 
     const ids = data.map((order) => order.id)
     const orders = await this.ordersRepository.find({
       where: { id: In(ids) },
-      // relations
+      relations: ['car'],
     })
 
     return {
@@ -95,6 +98,16 @@ export class OrdersTypeormRepository implements OrdersRepository {
 
   async insert(model: OrderModel): Promise<OrderModel> {
     return await this.ordersRepository.save(model)
+  }
+
+  async findWithRelations(
+    id: string,
+    ...relations: string[]
+  ): Promise<OrderModel> {
+    return await this.ordersRepository.find({
+      where: { id: id },
+      relations: [...relations],
+    })
   }
 
   async findById(id: string): Promise<OrderModel> {
