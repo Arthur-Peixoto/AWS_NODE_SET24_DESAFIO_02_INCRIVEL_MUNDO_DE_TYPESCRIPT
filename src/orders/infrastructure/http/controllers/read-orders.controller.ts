@@ -15,7 +15,7 @@ export async function readOrdersController(
     )
 
     const orders = await readOrdersUseCase.execute(req.query)
-    if (orders.data.length == 0) res.status(204).send()
+    if (orders.data.length == 0) return res.status(204).send()
 
     return res.status(200).json(orders)
   } catch (err) {
