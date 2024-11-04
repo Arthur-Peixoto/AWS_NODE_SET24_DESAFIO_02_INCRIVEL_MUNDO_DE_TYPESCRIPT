@@ -17,6 +17,7 @@ Após garantir que suas variáveis estão corretas e estar com o banco de dados 
 
 ```
 npm install
+npm run typeorm -- -d src/common/infraestructure/typeorm/index.ts migration:run
 npm run dev
 ```
 
