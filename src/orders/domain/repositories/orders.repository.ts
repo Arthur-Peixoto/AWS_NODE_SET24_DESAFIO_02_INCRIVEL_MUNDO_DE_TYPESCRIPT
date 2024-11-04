@@ -43,6 +43,5 @@ export type findResults = {
 export interface OrdersRepository
   extends RepositoryInterface<OrderModel, CreateOrderProps> {
   findAllAndFilter(params: findParams): Promise<findResults>
-  findWithRelations(id: string, ...relations: string[]): Promise<OrderModel>
   findWithCustomer(cpf: string): Promise<OrderModel>
 }

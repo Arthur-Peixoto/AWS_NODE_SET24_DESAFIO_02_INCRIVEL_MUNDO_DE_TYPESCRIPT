@@ -17,7 +17,7 @@ export async function deleteOrderController(
 
     await deleteOrderUseCase.execute(id)
 
-    return res.status(201).send()
+    return res.status(204).send()
   } catch (err) {
     next(err)
   }

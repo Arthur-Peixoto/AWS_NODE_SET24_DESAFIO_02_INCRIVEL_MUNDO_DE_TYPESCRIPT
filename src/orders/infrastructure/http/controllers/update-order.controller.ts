@@ -17,7 +17,7 @@ export async function updateOrderController(
 
     await updateOrderUseCase.execute(id, req.body)
 
-    return res.status(201).send()
+    return res.status(204).send()
   } catch (err) {
     next(err)
   }

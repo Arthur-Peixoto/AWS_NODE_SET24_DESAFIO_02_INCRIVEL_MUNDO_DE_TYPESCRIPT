@@ -103,24 +103,22 @@ export class OrdersTypeormRepository implements OrdersRepository {
   async findWithRelations(
     id: string,
     ...relations: string[]
-  ): Promise<OrderModel> {
-    return await this.ordersRepository.find({
+  ): Promise<OrderModel | null> {
+    const order = await this.ordersRepository.findOne({
       where: { id: id },
       relations: [...relations],
     })
+    console.log(order)
+    if (!order) throw new Error(`Order not found using id ${id}`)
+    return order
   }
 
   async findById(id: string): Promise<OrderModel> {
-    const order = await this.ordersRepository.findOne({
+    return await this.ordersRepository.findOne({
       where: { id: id },
-      // relations: { client: true },
+      relations: { customer: true, car: true },
     })
     // EntityNotFoundError
-    if (!order) {
-      throw new Error(`Order not found using id ${id}`)
-    }
-
-    return order
   }
 
   async findWithCustomer(id: string): Promise<OrderModel> {

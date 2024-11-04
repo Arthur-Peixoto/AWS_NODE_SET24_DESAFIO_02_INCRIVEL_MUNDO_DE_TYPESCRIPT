@@ -14,9 +14,10 @@ export async function readOrdersController(
       new OrdersTypeormRepository(dataSource.getRepository(Order)),
     )
 
-    const order = await readOrdersUseCase.execute(req.query)
+    const orders = await readOrdersUseCase.execute(req.query)
+    if (orders.data.length == 0) res.status(204).send()
 
-    return res.status(200).json(order)
+    return res.status(200).json(orders)
   } catch (err) {
     next(err)
   }

@@ -52,8 +52,8 @@ orderRoutes.get(
 orderRoutes.get(
   '/:id',
   celebrate({ [Segments.PARAMS]: { id: Joi.string().uuid().required() } }),
-  (req, res) => {
-    readOrderController(req, res)
+  (req, res, next) => {
+    readOrderController(req, res, next)
   },
 )
 
