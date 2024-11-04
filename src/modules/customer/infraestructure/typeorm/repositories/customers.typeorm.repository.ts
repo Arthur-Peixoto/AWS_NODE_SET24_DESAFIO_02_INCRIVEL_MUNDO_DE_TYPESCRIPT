@@ -34,7 +34,7 @@ export class CustomersTypeormRepository implements CustomerRepository {
     return await this.customerRepository.save(customer)
   }
 
-  async findByID(id: string): Promise<CustomerModel | null> {
+  async findByID(id: string): Promise<CustomerModel> {
     return await this.customerRepository.findOne({ where: { id } })
   }
 
