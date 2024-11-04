@@ -10,14 +10,14 @@ export async function readCustomerController(
   next: NextFunction,
 ) {
   try {
-    const { id } = req.body
+    const { id } = req.params
 
     const readCarUseCase = new ReadCustomerUseCase(
       new CustomersTypeormRepository(dataSource.getRepository(Customer)),
     )
     const customer = await readCarUseCase.execute(id)
 
-    return res.status(201).json(customer)
+    return res.status(200).json(customer)
   } catch (err) {
     next(err)
   }

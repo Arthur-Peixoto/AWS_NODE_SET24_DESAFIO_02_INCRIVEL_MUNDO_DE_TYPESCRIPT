@@ -21,8 +21,12 @@ customerRouter.post(
   },
 )
 
-customerRouter.get('/:id', (req, res, next) => {
-  readCustomerController(req, res, next)
-})
+customerRouter.get(
+  '/:id',
+  celebrate({ [Segments.PARAMS]: { id: Joi.string().uuid().required() } }),
+  (req, res, next) => {
+    readCustomerController(req, res, next)
+  },
+)
 
 export default customerRouter
