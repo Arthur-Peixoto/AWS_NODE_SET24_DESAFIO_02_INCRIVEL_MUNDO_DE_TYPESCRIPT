@@ -22,7 +22,6 @@ export class CreateCustomers1730485886879 implements MigrationInterface {
             name: 'date_birth',
             type: 'timestamp',
             isNullable: false,
-            default: 'now()',
           },
           {
             name: 'email',
