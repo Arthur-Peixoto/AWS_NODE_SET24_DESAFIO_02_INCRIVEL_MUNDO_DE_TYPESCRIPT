@@ -3,6 +3,8 @@ import { CarsTypeormRepository } from '../../typeorm/repositories/cars-typeorm.r
 import { dataSource } from '@/common/infraestructure/typeorm'
 import { Car } from '../../typeorm/entities/cars.entity'
 import { DeleteCarUseCase } from '@/cars/usecases/delete-car.usecase'
+import { OrdersTypeormRepository } from '@/orders/infrastructure/typeorm/repositories/orders-typeorm.repository'
+import { Order } from '@/orders/infrastructure/typeorm/entities/orders.entity'
 
 export async function deleteCarController(
   req: Request,
@@ -13,6 +15,7 @@ export async function deleteCarController(
     const { id } = req.params
     const deleteCarUseCase = new DeleteCarUseCase(
       new CarsTypeormRepository(dataSource.getRepository(Car)),
+      new OrdersTypeormRepository(dataSource.getRepository(Order)),
     )
 
     const deletedCar = await deleteCarUseCase.execute(id)
