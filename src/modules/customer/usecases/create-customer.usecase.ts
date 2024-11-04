@@ -1,6 +1,6 @@
 import { CustomerRepository } from './../domain/repositories/customer.repository'
 import { CustomerModel } from './../domain/models/customer.model'
-
+import { AppError } from '@/common/domain/errors/app-error'
 interface CreateCustomer {
   fullName: string
   dateBirth: Date
@@ -51,15 +51,15 @@ export class CreateCustomerUseCase {
 
   async execute(input: CreateCustomer): Promise<CustomerModel> {
     if (!validarCPF(input.cpf)) {
-      throw new Error('CPF inválido')
+      throw new AppError('CPF inválido', 404)
     }
 
-    const customerExists = await this.customerRepository.findByEmailOrCPF(
-      input.email,
-      input.cpf,
-    )
-    if (customerExists && !customerExists.deletionDate) {
-      throw new Error('Cliente já existe')
+    const customerExists =
+      (await this.customerRepository.findByCPF(input.cpf)) ||
+      (await this.customerRepository.findByEmail(input.email))
+
+    if (customerExists && customerExists.deleted_at) {
+      throw new AppError('Customer already exist', 409)
     }
 
     const newCustomer = await this.customerRepository.create({ ...input })

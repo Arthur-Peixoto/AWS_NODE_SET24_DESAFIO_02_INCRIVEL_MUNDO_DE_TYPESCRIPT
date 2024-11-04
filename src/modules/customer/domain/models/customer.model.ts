@@ -6,5 +6,5 @@ export interface CustomerModel {
   cpf: string
   phone: string
   registrationDate: Date
-  deletionDate?: Date | null 
+  deleted_at?: Date | null
 }
