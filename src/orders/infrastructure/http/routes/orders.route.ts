@@ -33,7 +33,7 @@ orderRoutes.get(
         .length(8)
         .optional(),
       total: Joi.number().optional(),
-      initialDate: Joi.date().min('now').optional(),
+      initialDate: Joi.date().optional(),
       finalDate: Joi.date().optional(),
       cancelDate: Joi.date().optional(),
       status: Joi.string().valid('Aberto', 'Aprovado', 'Cancelado').optional(),

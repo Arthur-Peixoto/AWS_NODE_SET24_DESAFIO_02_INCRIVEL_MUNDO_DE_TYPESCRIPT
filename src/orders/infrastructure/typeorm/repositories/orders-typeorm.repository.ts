@@ -44,18 +44,15 @@ export class OrdersTypeormRepository implements OrdersRepository {
     if (total) options.total = total
     if (cancelDate) options.cancelDate = cancelDate
     if (uf) options.uf = uf
-    if (customerCpf) options.costumer = {}
 
     if (finalDate && initialDate) {
       options.initialDate = Between(initialDate, finalDate)
       options.finalDate = Between(initialDate, finalDate)
     } else {
       if (initialDate) {
-        options.finalDate = MoreThan(initialDate)
         options.initialDate = MoreThanOrEqual(initialDate)
       }
       if (finalDate) {
-        options.initialDate = LessThan(finalDate)
         options.finalDate = LessThanOrEqual(finalDate)
       }
     }
