@@ -2,6 +2,7 @@ import { RepositoryInterface } from '@/common/domain/repositories/repository.int
 import { CustomerModel } from '../models/customer.model'
 
 export type CreateCustomerProps = {
+  deleted_at?: Date
   fullName: string
   email: string
   dateBirth: Date

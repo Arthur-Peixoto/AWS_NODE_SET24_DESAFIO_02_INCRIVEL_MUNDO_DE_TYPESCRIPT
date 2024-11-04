@@ -58,11 +58,15 @@ export class CreateCustomerUseCase {
       (await this.customerRepository.findByCPF(input.cpf)) ||
       (await this.customerRepository.findByEmail(input.email))
 
-    if (customerExists && customerExists.deleted_at) {
-      throw new AppError('Customer already exist', 409)
+    if (customerExists) {
+      if (!customerExists.deleted_at)
+        throw new AppError('Customer already exist', 409)
     }
 
-    const newCustomer = await this.customerRepository.create({ ...input })
+    const newCustomer = await this.customerRepository.create({
+      deleted_at: null,
+      ...input,
+    })
     await this.customerRepository.insert(newCustomer)
     return newCustomer
   }

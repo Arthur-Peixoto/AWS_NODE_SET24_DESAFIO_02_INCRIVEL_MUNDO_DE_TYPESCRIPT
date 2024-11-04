@@ -28,7 +28,7 @@ export class Customer {
   @CreateDateColumn()
   registrationDate: Date
 
-  @CreateDateColumn({ type: 'timestamp', nullable: true })
+  @CreateDateColumn({ type: 'timestamp', nullable: true, default: null })
   deleted_at: Date | null
 }
 
