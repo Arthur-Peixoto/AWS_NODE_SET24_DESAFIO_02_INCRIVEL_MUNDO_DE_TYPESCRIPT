@@ -3,6 +3,7 @@ import { CustomerModel } from '../domain/models/customer.model'
 import { AppError } from '@/common/domain/errors/app-error'
 
 export type UpdateCustomerInput = {
+  id: string
   dateBirth?: Date
   phone?: string
   fullName?: string
@@ -15,16 +16,25 @@ export class UpdateCustomerUseCase {
 
   async execute(input: UpdateCustomerInput): Promise<CustomerModel> {
     const customer = await this.customerRepository.findByID(input.id)
-    if (!customer || customer.deleted_at) {
-      throw new AppError('Customer not found', 404)
+
+    if (!customer) {
+      if (customer.deleted_at) throw new AppError('Customer not found', 404)
     }
 
     if (input.email && input.email !== customer.email) {
       const duplicatedEmail = await this.customerRepository.findByEmail(
         input.email,
       )
-      if (duplicatedEmail && duplicatedEmail.id !== customer.id) {
-        throw new AppError('Customer already exist', 409)
+      const duplicatedCpf = await this.customerRepository.findByCPF(input.cpf)
+      if (duplicatedCpf) {
+        if (duplicatedCpf.id !== customer.id) {
+          throw new AppError('Costumer already exist', 409)
+        }
+      }
+      if (duplicatedEmail) {
+        if (duplicatedEmail.id !== customer.id) {
+          throw new AppError('Costumer already exist', 409)
+        }
       }
     }
 

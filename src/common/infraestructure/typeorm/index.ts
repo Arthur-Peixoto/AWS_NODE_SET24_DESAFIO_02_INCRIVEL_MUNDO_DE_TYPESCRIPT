@@ -28,7 +28,7 @@ export const dataSource = new DataSource({
     CreateTokens1730228906207,
     CreateOrders1730237813958,
     ChangeTypeOfPrice1730489667223,
-    SeedUsers1730657179163
+    SeedUsers1730657179163,
   ],
   synchronize: true,
   entities: [Car, Item, Order, Customer, User],

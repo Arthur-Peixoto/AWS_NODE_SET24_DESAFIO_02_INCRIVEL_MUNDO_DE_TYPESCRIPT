@@ -48,7 +48,6 @@ export class CreateCustomers1730485886879 implements MigrationInterface {
           {
             name: 'deleted_at',
             type: 'timestamp',
-            default: null,
             isNullable: true,
           },
         ],

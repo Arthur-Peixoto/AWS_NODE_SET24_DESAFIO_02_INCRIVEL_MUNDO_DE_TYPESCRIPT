@@ -11,11 +11,12 @@ export async function updateCustomerController(
 ) {
   try {
     const { fullName, dateBirth, email, cpf, phone } = req.body
-
+    const { id } = req.params
     const updateCarUseCase = new UpdateCustomerUseCase(
       new CustomersTypeormRepository(dataSource.getRepository(Customer)),
     )
     const updatedCustomer = await updateCarUseCase.execute({
+      id,
       fullName,
       dateBirth,
       email,
